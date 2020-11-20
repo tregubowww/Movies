@@ -14,17 +14,25 @@
 
 
         <ImageView
-            android:id="@+id/orig"
+            android:id="@+id/logo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             android:scaleType="centerCrop"
-            android:src="@drawable/mask"
+            android:src="@drawable/logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
+        <ImageView
+            android:id="@+id/logoMask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logo_mask"
+            app:layout_constraintBottom_toBottomOf="@+id/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <TextView
             android:id="@+id/toBack"
@@ -180,6 +188,7 @@
             app:layout_constraintStart_toStartOf="parent"
 
             app:layout_constraintTop_toBottomOf="@+id/cast" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
