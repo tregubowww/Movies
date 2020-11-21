@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,9 +16,9 @@
             android:id="@+id/logo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
             android:scaleType="centerCrop"
             android:src="@drawable/logo"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,10 +28,9 @@
             android:id="@+id/logoMask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/logo_mask"
             app:layout_constraintBottom_toBottomOf="@+id/logo"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:srcCompat="@drawable/logo_mask" />
 
         <TextView
             android:id="@+id/toBack"
@@ -44,19 +42,19 @@
             android:text="@string/back"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
+            app:drawableLeftCompat="@drawable/ic_baseline_arrow_grey_ios_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:drawableLeftCompat="@drawable/ic_baseline_arrow_grey_ios_24" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/rectangle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintVertical_bias="0.28"
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.28"
             app:srcCompat="@drawable/rectangle" />
 
         <TextView
@@ -68,8 +66,7 @@
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toTopOf="@+id/rectangle"
             app:layout_constraintStart_toStartOf="@id/rectangle"
-            app:layout_constraintTop_toBottomOf="@+id/rectangle"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/rectangle" />
 
         <TextView
             android:id="@+id/name"
@@ -86,8 +83,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/age"
-             />
+            app:layout_constraintTop_toBottomOf="@+id/age" />
 
         <TextView
             android:id="@+id/tag"
@@ -179,15 +175,17 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/castRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:orientation="horizontal"
             android:padding="4dp"
             android:scrollbars="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"
-
-            app:layout_constraintTop_toBottomOf="@+id/cast" />
+            app:layout_constraintTop_toBottomOf="@+id/cast"
+            tools:listitem="@layout/cast_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
