@@ -13,7 +13,6 @@ import ru.myuniquenickname.myapplication.R
 
 class FragmentMoviesList : Fragment() {
 
-    private var backgroundListFragment: ImageView? = null
     private var clickListener: TransactionsFragmentClicks? = null
 
 
@@ -27,7 +26,7 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        backgroundListFragment = view.findViewById<ImageView>(R.id.backGround).apply {
+        view.findViewById<ImageView>(R.id.backGround).apply {
             setOnClickListener { clickListener?.replaceFragment() }
         }
 

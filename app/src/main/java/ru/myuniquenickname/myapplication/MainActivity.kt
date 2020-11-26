@@ -8,34 +8,24 @@ import android.widget.TextView
 import ru.myuniquenickname.myapplication.fragments.FragmentMoviesDetails
 import ru.myuniquenickname.myapplication.fragments.FragmentMoviesList
 
-class MainActivity : AppCompatActivity() , FragmentMoviesList.TransactionsFragmentClicks{
-
-
-
+class MainActivity : AppCompatActivity(), FragmentMoviesList.TransactionsFragmentClicks {
+    private val fragmentMoviesList = FragmentMoviesList().apply {
+        setClickListener(this@MainActivity)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-         FragmentMoviesList().apply {
-             setClickListener(this@MainActivity)
-             supportFragmentManager.beginTransaction().
-             add(R.id.fragment, this).
-             commit()
-         }
-
-
-
-
-
-
-
-
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().add(R.id.fragment, fragmentMoviesList)
+                .commit()
+        }
     }
 
     override fun replaceFragment() {
-        supportFragmentManager.beginTransaction().addToBackStack(null).
-        replace(R.id.fragment, FragmentMoviesDetails()).commit()
+        supportFragmentManager.beginTransaction().addToBackStack(null)
+            .replace(R.id.fragment, FragmentMoviesDetails()).commit()
     }
 
 
