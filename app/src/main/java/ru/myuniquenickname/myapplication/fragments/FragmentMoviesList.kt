@@ -26,13 +26,21 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<ImageView>(R.id.backGround).apply {
-            setOnClickListener { clickListener?.replaceFragment() }
+        view.findViewById<ImageView>(R.id.backGround).
+            setOnClickListener { clickListener?.replaceFragment()
         }
 
     }
-    fun  setClickListener(context : TransactionsFragmentClicks){
-        clickListener = context
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is TransactionsFragmentClicks){
+            clickListener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        clickListener = null
     }
 
     interface TransactionsFragmentClicks{
