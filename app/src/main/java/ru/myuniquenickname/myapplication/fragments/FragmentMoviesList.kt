@@ -2,38 +2,48 @@ package ru.myuniquenickname.myapplication.fragments
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.constraintlayout.widget.ConstraintLayout
-import ru.myuniquenickname.myapplication.R
+import androidx.fragment.app.Fragment
+import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
 
 
 class FragmentMoviesList : Fragment() {
 
     private var clickListener: TransactionsFragmentClicks? = null
+    private var _binding: FragmentMoviesListBinding? = null
+
+    private val binding get() = _binding!!
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_movies_list, container, false)
+    ): View? {
+        _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<ImageView>(R.id.backGround).
-            setOnClickListener { clickListener?.replaceFragment()
+        binding.backGround.setOnClickListener {
+            clickListener?.replaceFragment()
         }
 
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is TransactionsFragmentClicks){
+        if (context is TransactionsFragmentClicks) {
             clickListener = context
         }
     }
@@ -43,7 +53,7 @@ class FragmentMoviesList : Fragment() {
         clickListener = null
     }
 
-    interface TransactionsFragmentClicks{
+    interface TransactionsFragmentClicks {
         fun replaceFragment()
     }
 }

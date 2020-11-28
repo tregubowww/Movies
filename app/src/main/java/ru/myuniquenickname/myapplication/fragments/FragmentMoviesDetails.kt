@@ -1,36 +1,45 @@
 package ru.myuniquenickname.myapplication.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ru.myuniquenickname.myapplication.R
 import ru.myuniquenickname.myapplication.RecyclerViewAdapter
 import ru.myuniquenickname.myapplication.RecyclerViewICast
+import ru.myuniquenickname.myapplication.databinding.FragmentMoviesDetailsBinding
 
 
 class FragmentMoviesDetails : Fragment() {
 
+    private var _binding: FragmentMoviesDetailsBinding? = null
+
+    private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movies_details, container, false)
+        _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.castRecyclerView)
+        val recyclerView = binding.castRecyclerView
         recyclerView.setHasFixedSize(true)
         val adapter = RecyclerViewAdapter(createList())
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

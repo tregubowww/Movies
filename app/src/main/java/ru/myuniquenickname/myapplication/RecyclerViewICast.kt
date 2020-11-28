@@ -1,3 +1,3 @@
 package ru.myuniquenickname.myapplication
 
-class RecyclerViewICast(val imageResource : Int, val name : String)
+class RecyclerViewICast(val imageResource: Int, val name: String)
