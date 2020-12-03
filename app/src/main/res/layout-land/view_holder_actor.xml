@@ -13,7 +13,7 @@
         android:layout_height="140dp"
         android:layout_gravity="center"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
-        tools:src="@drawable/movie1" />
+        tools:src="@drawable/actor_robert_downey" />
 
     <TextView
         android:id="@+id/textCast"

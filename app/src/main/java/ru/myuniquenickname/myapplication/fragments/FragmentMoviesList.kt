@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import ru.myuniquenickname.myapplication.DataSource
+import ru.myuniquenickname.myapplication.OnRecyclerItemClicked
+import ru.myuniquenickname.myapplication.RecyclerViewAdapterMovies
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
 
 
 class FragmentMoviesList : Fragment() {
 
-    private var clickListener: TransactionsFragmentClicks? = null
+    private var listener: TransactionsFragmentClicks? = null
     private var _binding: FragmentMoviesListBinding? = null
 
     private val binding get() = _binding!!
@@ -30,9 +34,13 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.backGround.setOnClickListener {
-            clickListener?.replaceFragment()
-        }
+        val recyclerView = binding.recyclerMovie
+        recyclerView.setHasFixedSize(true)
+        val adapter = RecyclerViewAdapterMovies(clickListener)
+        val layoutManager = GridLayoutManager(context, 2)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = layoutManager
+
 
     }
 
@@ -44,16 +52,27 @@ class FragmentMoviesList : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is TransactionsFragmentClicks) {
-            clickListener = context
+            listener = context
         }
     }
 
     override fun onDetach() {
         super.onDetach()
-        clickListener = null
+        listener = null
     }
 
     interface TransactionsFragmentClicks {
-        fun replaceFragment()
+        fun replaceFragment(id: Int)
     }
+
+    private val clickListener = object : OnRecyclerItemClicked {
+        override fun onClick(id: Int) {
+            listener?.replaceFragment(id)
+        }
+
+        override fun onClickLike(position: Int, flag: Boolean) {
+            DataSource.listMovies[position].like = flag
+        }
+    }
+
 }
