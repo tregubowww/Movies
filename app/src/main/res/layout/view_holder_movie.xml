@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#222232">
+        android:background="@color/background_list_item">
 
         <ImageView
             android:id="@+id/logoFragmentList"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_black"
             android:text="@string/_13"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColorWhite"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/rectangleFragmentList"
@@ -67,7 +67,7 @@
             android:layout_marginEnd="6dp"
             android:fontFamily="@font/roboto_light"
             android:text="@string/action_adventure_fantasy"
-            android:textColor="#FF3466"
+            android:textColor="@color/text_color_pink"
             android:textSize="8sp"
             app:layout_constraintBottom_toTopOf="@+id/ratingBarFragmentList"
             app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
             android:layout_marginEnd="55dp"
             android:fontFamily="@font/roboto_black"
             android:text="@string/_125_reviews"
-            android:textColor="#6D6D80"
+            android:textColor="@color/text_color_grey"
             android:textSize="8sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/ratingBarFragmentList"
@@ -113,7 +113,7 @@
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_black"
             android:text="@string/avengers_end_game"
-            android:textColor="#ECECEC"
+            android:textColor="@color/textColorWhite"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -131,7 +131,7 @@
             android:layout_marginEnd="6dp"
             android:fontFamily="@font/roboto_black"
             android:text="@string/_137_min"
-            android:textColor="#6D6D80"
+            android:textColor="@color/text_color_grey"
             android:textSize="8sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"

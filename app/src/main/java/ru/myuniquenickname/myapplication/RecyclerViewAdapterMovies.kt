@@ -12,20 +12,8 @@ import ru.myuniquenickname.myapplication.databinding.ViewHolderMovieBinding
 class RecyclerViewAdapterMovies(private val clickListener: OnRecyclerItemClicked) :
     RecyclerView.Adapter<RecyclerViewAdapterMovies.RecyclerViewViewHolder>() {
 
-    class RecyclerViewViewHolder(viewHolderMovieBinding: ViewHolderMovieBinding) :
-        RecyclerView.ViewHolder(viewHolderMovieBinding.root) {
-        var imageViewMask: ImageView = viewHolderMovieBinding.maskFragmentList
-        var imageViewLogo: ImageView = viewHolderMovieBinding.logoFragmentList
-        var textViewAge: TextView = viewHolderMovieBinding.ageFragmentList
-        var textViewName: TextView = viewHolderMovieBinding.name
-        var textViewTag: TextView = viewHolderMovieBinding.tagFragmentList
-        var textViewReviews: TextView = viewHolderMovieBinding.reviewsFragmentList
-        var textViewMinutes: TextView = viewHolderMovieBinding.durationMin
-        var imageViewLike: ImageView = viewHolderMovieBinding.imageViewLike
-        var imageViewLikeEmpty: ImageView = viewHolderMovieBinding.imageViewLikeEmpty
-
-
-    }
+    class RecyclerViewViewHolder( val viewHolderMovieBinding: ViewHolderMovieBinding) :
+        RecyclerView.ViewHolder(viewHolderMovieBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -35,16 +23,16 @@ class RecyclerViewAdapterMovies(private val clickListener: OnRecyclerItemClicked
 
     override fun onBindViewHolder(holder: RecyclerViewViewHolder, position: Int) {
         val itemMovies = DataSource.listMovies[position]
-        holder.imageViewMask.setImageResource(itemMovies.imageResourceMaskList)
-        holder.imageViewLogo.setImageResource(itemMovies.imageResourceLogoList)
-        holder.textViewAge.text = "${itemMovies.age}+"
-        holder.textViewName.text = itemMovies.name
-        holder.textViewTag.text = itemMovies.tag
-        holder.textViewReviews.text = "${itemMovies.reviews} REVIEWS"
-        holder.textViewMinutes.text = "${itemMovies.minutes} MIN"
-        holder.imageViewLikeEmpty.setOnClickListener { onClickLike(holder.imageViewLike, position) }
+        holder.viewHolderMovieBinding.maskFragmentList.setImageResource(itemMovies.imageResourceMaskList)
+        holder.viewHolderMovieBinding.logoFragmentList.setImageResource(itemMovies.imageResourceLogoList)
+        holder.viewHolderMovieBinding.ageFragmentList.text = itemMovies.age.toString() + "+"
+        holder.viewHolderMovieBinding.name.text = itemMovies.name
+        holder.viewHolderMovieBinding.tagFragmentList.text = itemMovies.tag
+        holder.viewHolderMovieBinding.reviewsFragmentList.text = itemMovies.reviews.toString() + " REVIEWS"
+        holder.viewHolderMovieBinding.durationMin.text = itemMovies.minutes.toString() + " MIN"
+        holder.viewHolderMovieBinding.imageViewLikeEmpty.setOnClickListener { onClickLike(holder.viewHolderMovieBinding.imageViewLike, position) }
         holder.itemView.setOnClickListener { clickListener.onClick(itemMovies.id) }
-        if (itemMovies.like) holder.imageViewLike.visibility = View.VISIBLE
+        if (itemMovies.like) holder.viewHolderMovieBinding.imageViewLike.visibility = View.VISIBLE
     }
 
     private fun onClickLike(imageViewLike: ImageView, position: Int) {
@@ -61,10 +49,9 @@ class RecyclerViewAdapterMovies(private val clickListener: OnRecyclerItemClicked
 
     override fun getItemCount(): Int = DataSource.listMovies.size
 
-
+    interface OnRecyclerItemClicked {
+        fun onClick(id: Int)
+        fun onClickLike(id: Int, flag: Boolean)
+    }
 }
 
-interface OnRecyclerItemClicked {
-    fun onClick(id: Int)
-    fun onClickLike(id: Int, flag: Boolean)
-}

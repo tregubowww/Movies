@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="@font/roboto_black"
-        android:text="@string/movies_list"
+        android:text="Movies list"
         android:textColor="@color/textColorWhite"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -42,5 +42,5 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewList"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/view_holder_movie"
-        app:spanCount="2" />
+        app:spanCount="3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

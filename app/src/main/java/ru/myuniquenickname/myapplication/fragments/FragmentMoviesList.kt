@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.myuniquenickname.myapplication.DataSource
-import ru.myuniquenickname.myapplication.OnRecyclerItemClicked
 import ru.myuniquenickname.myapplication.RecyclerViewAdapterMovies
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
 
@@ -39,7 +38,6 @@ class FragmentMoviesList : Fragment() {
         val adapter = RecyclerViewAdapterMovies(clickListener)
         val layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = layoutManager
 
 
     }
@@ -65,7 +63,7 @@ class FragmentMoviesList : Fragment() {
         fun replaceFragment(id: Int)
     }
 
-    private val clickListener = object : OnRecyclerItemClicked {
+    private val clickListener = object : RecyclerViewAdapterMovies.OnRecyclerItemClicked {
         override fun onClick(id: Int) {
             listener?.replaceFragment(id)
         }

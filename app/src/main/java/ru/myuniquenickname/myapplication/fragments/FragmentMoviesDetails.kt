@@ -10,11 +10,24 @@ import ru.myuniquenickname.myapplication.*
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesDetailsBinding
 
 
+
+
 class FragmentMoviesDetails() : Fragment() {
 
+    private var id: Int? = null
     private var _binding: FragmentMoviesDetailsBinding? = null
-
     private val binding get() = _binding!!
+
+    companion object {
+        fun newInstance(id: Int) = FragmentMoviesDetails().apply {
+            arguments = Bundle().apply { putInt(DataSource.ID_KEY, id) }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        id = arguments?.getInt(DataSource.ID_KEY)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +40,6 @@ class FragmentMoviesDetails() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = arguments?.getInt(DataSource.ID)
         val recyclerViewItemMovie = DataSource.listMovies.find { it.id == id }
         if (recyclerViewItemMovie != null) {
             updateContent(recyclerViewItemMovie)

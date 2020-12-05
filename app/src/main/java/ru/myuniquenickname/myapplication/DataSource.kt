@@ -2,7 +2,7 @@ package ru.myuniquenickname.myapplication
 
 object DataSource {
 
-    const val ID = "ID_movie"
+    const val ID_KEY = "ID_movie"
 
     private val listActorsAvengers = listOf(
         RecyclerViewItemActors(R.drawable.actor_robert_downey, "Rober Downey Jr."),
@@ -18,7 +18,7 @@ object DataSource {
             1,
             R.drawable.logo_list_avengers,
             R.drawable.mask_list_avengers,
-            R.drawable.logo_movie_avangers,
+            R.drawable.logo_movie_avengers,
             R.drawable.mask_movie_avengers,
             13,
             4.1.toFloat(),

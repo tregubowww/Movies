@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191926">
+    android:background="@color/background_fragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/logo_movie_avangers" />
+            tools:src="@drawable/logo_movie_avengers" />
 
 
         <ImageView
@@ -39,7 +39,7 @@
             android:layout_marginTop="40dp"
             android:alpha="0.5"
             android:text="@string/back"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColorWhite"
             android:textSize="12sp"
             app:drawableLeftCompat="@drawable/ic_baseline_arrow_grey_ios_24"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_black"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColorWhite"
             app:layout_constraintBottom_toTopOf="@+id/rectangle"
             app:layout_constraintStart_toStartOf="@id/rectangle"
             app:layout_constraintTop_toBottomOf="@+id/rectangle"
@@ -74,7 +74,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_black"
-            android:textColor="#ECECEC"
+            android:textColor="@color/textColorWhite"
             android:textSize="40sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tag"
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/roboto_light"
-            android:textColor="#FF3466"
+            android:textColor="@color/text_color_pink"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/reviews"
             app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/roboto_black"
-            android:textColor="#6D6D80"
+            android:textColor="@color/text_color_grey"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/ratingBar"
             app:layout_constraintStart_toEndOf="@+id/ratingBar"
@@ -132,7 +132,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_black"
-            android:textColor="#ECECEC"
+            android:textColor="@color/textColorWhite"
             app:layout_constraintBottom_toTopOf="@+id/storyLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +147,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_thin"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColorWhite"
             app:layout_constraintBottom_toTopOf="@+id/cast"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -164,7 +164,7 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_black"
             android:text="@string/cast"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColorWhite"
             app:layout_constraintBottom_toTopOf="@+id/castRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

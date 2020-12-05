@@ -20,15 +20,10 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.TransactionsFragmen
     }
 
     override fun replaceFragment(id: Int) {
-        val fragmentMoviesDetails = FragmentMoviesDetails()
-        val bundle = Bundle()
-        bundle.putInt(DataSource.ID, id)
-        fragmentMoviesDetails.arguments = bundle
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, fragmentMoviesDetails)
+            .replace(R.id.container_fragment, FragmentMoviesDetails.newInstance(id))
             .commit()
-
     }
 
 
