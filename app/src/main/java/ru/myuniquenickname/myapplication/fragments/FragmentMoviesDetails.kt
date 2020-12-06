@@ -54,13 +54,15 @@ class FragmentMoviesDetails() : Fragment() {
     }
 
     private fun updateContent(item: RecyclerViewItemMovie) {
-        binding.logo.setImageResource(item.imageResourceLogoDetails)
-        binding.mask.setImageResource(item.imageResourceMaskDetails)
-        binding.age.text = item.age.toString() + "+"
-        binding.ratingBar.rating = item.rating
-        binding.name.text = item.name
-        binding.tag.text = item.tag
-        binding.reviews.text = item.reviews.toString() + " REVIEWS"
+        binding.apply {
+        logo.setImageResource(item.imageResourceLogoDetails)
+        mask.setImageResource(item.imageResourceMaskDetails)
+        age.text = item.age.toString() + "+"
+        ratingBar.rating = item.rating
+        name.text = item.name
+        tag.text = item.tag
+        reviews.text = item.reviews.toString() + " REVIEWS"
+        }
     }
 
     override fun onDestroyView() {
