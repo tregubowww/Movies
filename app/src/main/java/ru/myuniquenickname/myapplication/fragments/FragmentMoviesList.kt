@@ -1,6 +1,7 @@
 package ru.myuniquenickname.myapplication.fragments
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,9 +36,12 @@ class FragmentMoviesList : Fragment() {
 
         val recyclerView = binding.recyclerMovie
         recyclerView.setHasFixedSize(true)
-        val adapter = RecyclerViewAdapterMovies(clickListener)
-        val layoutManager = GridLayoutManager(context, 2)
-        recyclerView.adapter = adapter
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.layoutManager = GridLayoutManager(context, 2)
+        } else {
+            recyclerView.layoutManager = GridLayoutManager(context, 3)
+        }
+        recyclerView.adapter = RecyclerViewAdapterMovies(clickListener)
 
 
     }

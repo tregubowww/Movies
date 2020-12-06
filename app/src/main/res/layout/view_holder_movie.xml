@@ -137,15 +137,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
-        <ImageView
-            android:id="@+id/imageViewLikeEmpty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/like_empty" />
 
         <ImageView
             android:id="@+id/imageViewLike"
@@ -153,10 +144,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="6dp"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/like" />
+            app:srcCompat="@drawable/like_empty"
+            app:tint="@color/text_color_pink"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

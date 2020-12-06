@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import ru.myuniquenickname.myapplication.*
+import ru.myuniquenickname.myapplication.DataSource
+import ru.myuniquenickname.myapplication.RecyclerViewAdapterActors
+import ru.myuniquenickname.myapplication.RecyclerViewItemMovie
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesDetailsBinding
-
-
 
 
 class FragmentMoviesDetails() : Fragment() {
@@ -53,14 +53,14 @@ class FragmentMoviesDetails() : Fragment() {
 
     }
 
-    private fun updateContent(recyclerViewItemMovie: RecyclerViewItemMovie) {
-        binding.logo.setImageResource(recyclerViewItemMovie.imageResourceLogoDetails)
-        binding.mask.setImageResource(recyclerViewItemMovie.imageResourceMaskDetails)
-        binding.age.text = recyclerViewItemMovie.age.toString() + "+"
-        binding.ratingBar.rating = recyclerViewItemMovie.rating
-        binding.name.text = recyclerViewItemMovie.name
-        binding.tag.text = recyclerViewItemMovie.tag
-        binding.reviews.text = recyclerViewItemMovie.reviews.toString() + " REVIEWS"
+    private fun updateContent(item: RecyclerViewItemMovie) {
+        binding.logo.setImageResource(item.imageResourceLogoDetails)
+        binding.mask.setImageResource(item.imageResourceMaskDetails)
+        binding.age.text = item.age.toString() + "+"
+        binding.ratingBar.rating = item.rating
+        binding.name.text = item.name
+        binding.tag.text = item.tag
+        binding.reviews.text = item.reviews.toString() + " REVIEWS"
     }
 
     override fun onDestroyView() {

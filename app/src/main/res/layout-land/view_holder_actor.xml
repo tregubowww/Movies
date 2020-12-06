@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageCast"
+        android:id="@+id/imageActor"
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_gravity="center"
@@ -16,12 +16,12 @@
         tools:src="@drawable/actor_robert_downey" />
 
     <TextView
-        android:id="@+id/textCast"
+        android:id="@+id/textActor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageCast"
-        android:layout_alignStart="@+id/imageCast"
-        android:layout_alignEnd="@+id/imageCast"
+        android:layout_below="@+id/imageActor"
+        android:layout_alignStart="@+id/imageActor"
+        android:layout_alignEnd="@+id/imageActor"
         android:layout_marginTop="6dp"
         android:textColor="@color/textColorWhite"
         tools:text="Robert Downey Jr."
