@@ -19,10 +19,10 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.TransactionsFragmen
         }
     }
 
-    override fun replaceFragment() {
+    override fun replaceFragment(id: Int) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, FragmentMoviesDetails())
+            .replace(R.id.container_fragment, FragmentMoviesDetails.newInstance(id))
             .commit()
     }
 

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191926"
-    tools:context=".MovieDetailsActivity">
+    android:background="@color/background_fragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,20 +16,20 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/logo"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/logo_movie_avengers" />
 
 
         <ImageView
-            android:id="@+id/logoMask"
+            android:id="@+id/mask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/logo"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/logo_mask" />
+            tools:srcCompat="@drawable/mask_movie_avengers" />
 
         <TextView
             android:id="@+id/toBack"
@@ -40,7 +39,7 @@
             android:layout_marginTop="40dp"
             android:alpha="0.5"
             android:text="@string/back"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColorWhite"
             android:textSize="12sp"
             app:drawableLeftCompat="@drawable/ic_baseline_arrow_grey_ios_24"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,28 +61,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/_13"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColorWhite"
             app:layout_constraintBottom_toTopOf="@+id/rectangle"
             app:layout_constraintStart_toStartOf="@id/rectangle"
-            app:layout_constraintTop_toBottomOf="@+id/rectangle" />
+            app:layout_constraintTop_toBottomOf="@+id/rectangle"
+            tools:text="@string/_13" />
 
         <TextView
-            android:id="@+id/nameFragmentList"
+            android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/avengers_end_game"
-            android:textColor="#ECECEC"
+            android:textColor="@color/textColorWhite"
             android:textSize="40sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/age" />
+            app:layout_constraintTop_toBottomOf="@+id/age"
+            tools:text="@string/avengers_end_game" />
 
         <TextView
             android:id="@+id/tag"
@@ -91,12 +90,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/roboto_light"
-            android:text="@string/action_adventure_fantasy"
-            android:textColor="#FF3466"
+            android:textColor="@color/text_color_pink"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/reviews"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameFragmentList" />
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            tools:text="@string/action_adventure_fantasy" />
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -105,11 +104,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:rating="4"
             android:theme="@style/MyRatingBar"
             app:layout_constraintBottom_toTopOf="@+id/storyLineName"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tag" />
+            app:layout_constraintTop_toBottomOf="@+id/tag"
+            tools:rating="4" />
 
         <TextView
             android:id="@+id/reviews"
@@ -118,12 +117,12 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/_125_reviews"
-            android:textColor="#6D6D80"
+            android:textColor="@color/text_color_grey"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/ratingBar"
             app:layout_constraintStart_toEndOf="@+id/ratingBar"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+            tools:text="@string/_125_reviews" />
 
         <TextView
             android:id="@+id/storyLineName"
@@ -133,12 +132,12 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/storyline"
-            android:textColor="#ECECEC"
+            android:textColor="@color/textColorWhite"
             app:layout_constraintBottom_toTopOf="@+id/storyLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+            tools:text="@string/storyline" />
 
         <TextView
             android:id="@+id/storyLine"
@@ -148,13 +147,13 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_thin"
-            android:text="@string/storyLine"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColorWhite"
             app:layout_constraintBottom_toTopOf="@+id/cast"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storyLineName" />
+            app:layout_constraintTop_toBottomOf="@+id/storyLineName"
+            tools:text="@string/storyLine" />
 
         <TextView
             android:id="@+id/cast"
@@ -165,7 +164,7 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_black"
             android:text="@string/cast"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColorWhite"
             app:layout_constraintBottom_toTopOf="@+id/castRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -185,7 +184,7 @@
             app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cast"
-            tools:listitem="@layout/cast_item" />
+            tools:listitem="@layout/view_holder_actor" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
