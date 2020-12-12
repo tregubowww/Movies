@@ -2,12 +2,11 @@ package ru.myuniquenickname.myapplication
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ru.myuniquenickname.myapplication.data.Actor
 import ru.myuniquenickname.myapplication.databinding.ViewHolderActorBinding
 
-class RecyclerViewAdapterActors(private val castList: List<RecyclerViewItemActors>) :
+class RecyclerViewAdapterActors(private val castList: List<Actor>) :
     RecyclerView.Adapter<RecyclerViewAdapterActors.RecyclerViewViewHolder>() {
 
     class RecyclerViewViewHolder(val binding: ViewHolderActorBinding) :
@@ -21,9 +20,9 @@ class RecyclerViewAdapterActors(private val castList: List<RecyclerViewItemActor
     }
 
     override fun onBindViewHolder(holder: RecyclerViewViewHolder, position: Int) {
-        val castItem = this.castList[position]
+        val castItem = castList[position]
         holder.binding.apply {
-            imageActor.setImageResource(castItem.imageResource)
+//            imageActor.setImageResource(castItem.picture)
             textActor.text = castItem.name }
     }
 

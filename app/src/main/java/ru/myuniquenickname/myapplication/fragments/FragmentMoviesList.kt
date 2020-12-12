@@ -2,14 +2,23 @@ package ru.myuniquenickname.myapplication.fragments
 
 import android.content.Context
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import ru.myuniquenickname.myapplication.DataSource
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import kotlinx.coroutines.*
+import ru.myuniquenickname.myapplication.R
 import ru.myuniquenickname.myapplication.RecyclerViewAdapterMovies
+import ru.myuniquenickname.myapplication.data.Genre
+import ru.myuniquenickname.myapplication.data.Movie
+import ru.myuniquenickname.myapplication.data.loadMovies
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
 
 
@@ -17,6 +26,7 @@ class FragmentMoviesList : Fragment() {
 
     private var listener: TransactionsFragmentClicks? = null
     private var _binding: FragmentMoviesListBinding? = null
+    private var listMovies: List<Movie>? = null
 
     private val binding get() = _binding!!
 
@@ -34,15 +44,18 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView = binding.recyclerMovie
-        recyclerView.setHasFixedSize(true)
-        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.layoutManager = GridLayoutManager(context, 2)
-        } else {
-            recyclerView.layoutManager = GridLayoutManager(context, 3)
+        runBlocking {
+            listMovies = context?.let { loadMovies(it) }
         }
-        recyclerView.adapter = RecyclerViewAdapterMovies(clickListener)
 
+            val recyclerView = binding.recyclerMovie
+            recyclerView.setHasFixedSize(true)
+            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                recyclerView.layoutManager = GridLayoutManager(context, 2)
+            } else {
+                recyclerView.layoutManager = GridLayoutManager(context, 3)
+            }
+            recyclerView.adapter = RecyclerViewAdapterMovies(clickListener, listMovies)
 
     }
 
@@ -73,7 +86,23 @@ class FragmentMoviesList : Fragment() {
         }
 
         override fun onClickLike(position: Int, flag: Boolean) {
-            DataSource.listMovies[position].like = flag
+            listMovies?.get(position)?.like = flag
+        }
+
+        override fun downloadAndSetPicture(poster: ImageView, posterPath: String) {
+                Glide
+                    .with(this@FragmentMoviesList)
+                    .load(posterPath)
+                    .into(poster)
+
+        }
+
+        override fun setGenres(genres: TextView, listGenres: List<Genre>) {
+            var genresString : String? = null
+            for (i in listGenres.indices){
+                genresString += listGenres[i].name + ", "
+            }
+            genres.text = genresString
         }
     }
 

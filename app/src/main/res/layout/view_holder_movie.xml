@@ -15,25 +15,15 @@
         android:background="@color/background_list_item">
 
         <ImageView
-            android:id="@+id/logoFragmentList"
+            android:id="@+id/poster"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/logo_list_avengers"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-        <ImageView
-            android:id="@+id/maskFragmentList"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/mask_list_avengers"
-            app:layout_constraintBottom_toBottomOf="@+id/logoFragmentList"
-            app:layout_constraintEnd_toEndOf="@id/logoFragmentList"
-            app:layout_constraintStart_toStartOf="@id/logoFragmentList"
-            app:layout_constraintTop_toTopOf="@id/logoFragmentList" />
 
         <ImageView
             android:id="@+id/rectangleFragmentList"
@@ -60,7 +50,7 @@
             app:layout_constraintTop_toTopOf="@+id/rectangleFragmentList" />
 
         <TextView
-            android:id="@+id/tagFragmentList"
+            android:id="@+id/genres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
