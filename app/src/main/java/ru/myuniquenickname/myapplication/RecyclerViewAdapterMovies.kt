@@ -1,24 +1,23 @@
 package ru.myuniquenickname.myapplication
 
 import android.graphics.PorterDuff
-import android.provider.MediaStore
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.*
 import ru.myuniquenickname.myapplication.data.Genre
 import ru.myuniquenickname.myapplication.data.Movie
 import ru.myuniquenickname.myapplication.databinding.ViewHolderMovieBinding
-import ru.myuniquenickname.myapplication.fragments.FragmentMoviesList
 
-class RecyclerViewAdapterMovies(private val clickListener: OnRecyclerItemClicked, private val listMovies: List<Movie>?) :
+class RecyclerViewAdapterMovies(
+    private val clickListener: OnRecyclerItemClicked,
+    private val listMovies: List<Movie>?
+) :
     RecyclerView.Adapter<RecyclerViewAdapterMovies.RecyclerViewViewHolder>() {
 
-    class RecyclerViewViewHolder( val binding: ViewHolderMovieBinding) :
+    class RecyclerViewViewHolder(val binding: ViewHolderMovieBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewViewHolder {
@@ -28,14 +27,16 @@ class RecyclerViewAdapterMovies(private val clickListener: OnRecyclerItemClicked
     }
 
     override fun onBindViewHolder(holder: RecyclerViewViewHolder, position: Int) {
-        if  (listMovies != null) {
+        if (listMovies != null) {
             val itemMovies = listMovies[position]
             holder.binding.apply {
                 clickListener.downloadAndSetPicture(poster, itemMovies.poster)
-
+                Glide.with(root)
+                    .load(itemMovies.poster)
+                    .into(poster)
                 ageFragmentList.text = itemMovies.minimumAge.toString() + "+"
                 name.text = itemMovies.title
-                clickListener.setGenres(genres,itemMovies.genres)
+                clickListener.setGenres(genres, itemMovies.genres)
                 reviewsFragmentList.text = itemMovies.numberOfRatings.toString() + " REVIEWS"
                 durationMin.text = itemMovies.runtime.toString() + " MIN"
                 if (itemMovies.like)
