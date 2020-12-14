@@ -1,20 +1,12 @@
 package ru.myuniquenickname.myapplication
 
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.runBlocking
-import ru.myuniquenickname.myapplication.data.Movie
-import ru.myuniquenickname.myapplication.data.loadMovies
 import ru.myuniquenickname.myapplication.fragments.FragmentMoviesDetails
 import ru.myuniquenickname.myapplication.fragments.FragmentMoviesList
 
 class MainActivity : AppCompatActivity(), FragmentMoviesList.TransactionsFragmentClicks {
     private val fragmentMoviesList = FragmentMoviesList()
-    override fun getApplicationContext(): Context {
-        return super.getApplicationContext()
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +15,6 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.TransactionsFragmen
             supportFragmentManager.beginTransaction()
                 .add(R.id.container_fragment, fragmentMoviesList)
                 .commit()
-
-
         }
     }
 
