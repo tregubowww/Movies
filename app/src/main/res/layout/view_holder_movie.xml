@@ -3,37 +3,29 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="155dp"
-    android:layout_height="275dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_margin="14dp"
-    app:cardCornerRadius="6dp">
+    app:cardBackgroundColor="@color/cardview_dark_background"
+    app:cardCornerRadius="8dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="155dp"
+        android:layout_height="275dp"
         android:background="@color/background_list_item">
 
         <ImageView
-            android:id="@+id/logoFragmentList"
+            android:id="@+id/poster"
+            android:alpha=".4"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/logo_list_avengers"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-        <ImageView
-            android:id="@+id/maskFragmentList"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/mask_list_avengers"
-            app:layout_constraintBottom_toBottomOf="@+id/logoFragmentList"
-            app:layout_constraintEnd_toEndOf="@id/logoFragmentList"
-            app:layout_constraintStart_toStartOf="@id/logoFragmentList"
-            app:layout_constraintTop_toTopOf="@id/logoFragmentList" />
 
         <ImageView
             android:id="@+id/rectangleFragmentList"
@@ -60,7 +52,7 @@
             app:layout_constraintTop_toTopOf="@+id/rectangleFragmentList" />
 
         <TextView
-            android:id="@+id/tagFragmentList"
+            android:id="@+id/genres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"

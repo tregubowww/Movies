@@ -8,7 +8,6 @@ import ru.myuniquenickname.myapplication.fragments.FragmentMoviesList
 class MainActivity : AppCompatActivity(), FragmentMoviesList.TransactionsFragmentClicks {
     private val fragmentMoviesList = FragmentMoviesList()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,6 +24,4 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.TransactionsFragmen
             .replace(R.id.container_fragment, FragmentMoviesDetails.newInstance(id))
             .commit()
     }
-
-
 }

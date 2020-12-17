@@ -8,8 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import ru.myuniquenickname.myapplication.DataSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.myuniquenickname.myapplication.RecyclerViewAdapterMovies
+import ru.myuniquenickname.myapplication.data.Movie
+import ru.myuniquenickname.myapplication.data.loadMovies
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
 
 
@@ -17,9 +21,7 @@ class FragmentMoviesList : Fragment() {
 
     private var listener: TransactionsFragmentClicks? = null
     private var _binding: FragmentMoviesListBinding? = null
-
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +31,6 @@ class FragmentMoviesList : Fragment() {
         _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,9 +42,10 @@ class FragmentMoviesList : Fragment() {
         } else {
             recyclerView.layoutManager = GridLayoutManager(context, 3)
         }
-        recyclerView.adapter = RecyclerViewAdapterMovies(clickListener)
-
-
+        CoroutineScope(Dispatchers.Main).launch {
+            val listMovies: List<Movie>? = context?.let { loadMovies(it) }
+            recyclerView.adapter = RecyclerViewAdapterMovies(clickListener, listMovies)
+        }
     }
 
     override fun onDestroyView() {
@@ -71,10 +73,5 @@ class FragmentMoviesList : Fragment() {
         override fun onClick(id: Int) {
             listener?.replaceFragment(id)
         }
-
-        override fun onClickLike(position: Int, flag: Boolean) {
-            DataSource.listMovies[position].like = flag
-        }
     }
-
 }

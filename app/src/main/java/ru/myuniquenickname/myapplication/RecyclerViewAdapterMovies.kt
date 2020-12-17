@@ -1,18 +1,24 @@
 package ru.myuniquenickname.myapplication
 
+import android.content.Context
 import android.graphics.PorterDuff
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.view.isVisible
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.*
+import ru.myuniquenickname.myapplication.data.Movie
 import ru.myuniquenickname.myapplication.databinding.ViewHolderMovieBinding
 
-class RecyclerViewAdapterMovies(private val clickListener: OnRecyclerItemClicked) :
+class RecyclerViewAdapterMovies(
+    private val clickListener: OnRecyclerItemClicked,
+    private val listMovies: List<Movie>?
+) :
     RecyclerView.Adapter<RecyclerViewAdapterMovies.RecyclerViewViewHolder>() {
 
-    class RecyclerViewViewHolder( val binding: ViewHolderMovieBinding) :
+    class RecyclerViewViewHolder(val binding: ViewHolderMovieBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewViewHolder {
@@ -22,42 +28,50 @@ class RecyclerViewAdapterMovies(private val clickListener: OnRecyclerItemClicked
     }
 
     override fun onBindViewHolder(holder: RecyclerViewViewHolder, position: Int) {
-        val itemMovies = DataSource.listMovies[position]
-        holder.binding.apply {
-            maskFragmentList.setImageResource(itemMovies.imageResourceMaskList)
-            maskFragmentList.setImageResource(itemMovies.imageResourceMaskList)
-            logoFragmentList.setImageResource(itemMovies.imageResourceLogoList)
-            ageFragmentList.text = itemMovies.age.toString() + "+"
-            name.text = itemMovies.name
-            tagFragmentList.text = itemMovies.tag
-            reviewsFragmentList.text = itemMovies.reviews.toString() + " REVIEWS"
-            durationMin.text = itemMovies.minutes.toString() + " MIN"
-            if (itemMovies.like)
-                imageViewLike.imageTintMode = PorterDuff.Mode.SRC_IN
-            else
-                imageViewLike.imageTintMode = PorterDuff.Mode.DST_IN
-            imageViewLike.setOnClickListener { onClickLike(imageViewLike, position) }
+        if (listMovies!= null) {
+            val itemMovies = listMovies[position]
+            holder.binding.apply {
+                putPosterImage(root, itemMovies.poster, poster)
+                ageFragmentList.text = itemMovies.minimumAge.toString() + "+"
+                ratingBarFragmentList.rating = itemMovies.ratings / 2
+                name.text = itemMovies.title
+                genres.text = itemMovies.genres.joinToString { it.name }
+                reviewsFragmentList.text = itemMovies.numberOfRatings.toString() + " REVIEWS"
+                durationMin.text = itemMovies.runtime.toString() + " MIN"
+                onClickLike(itemMovies.like, imageViewLike, position)
+            }
+            holder.itemView.setOnClickListener { clickListener.onClick(itemMovies.id) }
         }
-        holder.itemView.setOnClickListener { clickListener.onClick(itemMovies.id) }
     }
 
-    private fun onClickLike(imageViewLike: ImageView, position: Int) {
-
-        if (imageViewLike.imageTintMode == PorterDuff.Mode.SRC_IN) {
-            imageViewLike.imageTintMode = PorterDuff.Mode.DST_IN
-            clickListener.onClickLike(position, false)
-        } else {
+    private fun onClickLike(isLike: Boolean, imageViewLike: ImageView, position: Int) {
+        if (isLike) {
             imageViewLike.imageTintMode = PorterDuff.Mode.SRC_IN
-            clickListener.onClickLike(position, true)
+        } else {
+            imageViewLike.imageTintMode = PorterDuff.Mode.DST_IN
+        }
+        imageViewLike.setOnClickListener {
+            if (imageViewLike.imageTintMode == PorterDuff.Mode.SRC_IN) {
+                imageViewLike.imageTintMode = PorterDuff.Mode.DST_IN
+                listMovies?.get(position)?.like = false
+            }else {
+                    imageViewLike.imageTintMode = PorterDuff.Mode.SRC_IN
+                    listMovies?.get(position)?.like = true
+                }
+            }
         }
 
+    private fun putPosterImage(root: CardView, posterPath: String, poster: ImageView) {
+        Glide
+            .with(root)
+            .load(posterPath)
+            .into(poster)
     }
 
-    override fun getItemCount(): Int = DataSource.listMovies.size
+    override fun getItemCount(): Int = listMovies?.size ?: 0
 
     interface OnRecyclerItemClicked {
         fun onClick(id: Int)
-        fun onClickLike(id: Int, flag: Boolean)
     }
 }
 

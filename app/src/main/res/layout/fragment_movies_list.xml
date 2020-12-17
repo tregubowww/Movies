@@ -14,7 +14,7 @@
         android:layout_height="15dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="35sp"
-        android:src="@drawable/shape"
+        tools:src="@drawable/shape"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,4 +44,6 @@
         tools:listitem="@layout/view_holder_movie"
         tools:spanCount="2"
         />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
