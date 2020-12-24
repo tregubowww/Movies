@@ -1,4 +1,4 @@
-package ru.myuniquenickname.myapplication.data
+package ru.myuniquenickname.myapplication.domain.entity
 
 data class Actor(
     val id: Int,

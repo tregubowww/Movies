@@ -1,7 +1,7 @@
-package ru.myuniquenickname.myapplication.data
+package ru.myuniquenickname.myapplication.domain.entity
 
-import ru.myuniquenickname.myapplication.data.Actor
-import ru.myuniquenickname.myapplication.data.Genre
+import ru.myuniquenickname.myapplication.domain.entity.Actor
+import ru.myuniquenickname.myapplication.domain.entity.Genre
 
 data class Movie(
     var like: Boolean,

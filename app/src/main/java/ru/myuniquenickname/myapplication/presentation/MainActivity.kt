@@ -1,12 +1,13 @@
-package ru.myuniquenickname.myapplication
+package ru.myuniquenickname.myapplication.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import ru.myuniquenickname.myapplication.fragments.FragmentMoviesDetails
-import ru.myuniquenickname.myapplication.fragments.FragmentMoviesList
+import ru.myuniquenickname.myapplication.R
+import ru.myuniquenickname.myapplication.presentation.movieDetails.FragmentMoviesDetails
+import ru.myuniquenickname.myapplication.presentation.movieList.FragmentMovieList
 
-class MainActivity : AppCompatActivity(), FragmentMoviesList.TransactionsFragmentClicks {
-    private val fragmentMoviesList = FragmentMoviesList()
+class MainActivity : AppCompatActivity(), FragmentMovieList.TransactionsFragmentClicks {
+    private val fragmentMoviesList = FragmentMovieList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,10 +19,10 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.TransactionsFragmen
         }
     }
 
-    override fun replaceFragment(id: Int) {
+    override fun replaceFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, FragmentMoviesDetails.newInstance(id))
+            .replace(R.id.container_fragment, FragmentMoviesDetails())
             .commit()
     }
 }

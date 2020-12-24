@@ -1,4 +1,4 @@
-package ru.myuniquenickname.myapplication
+package ru.myuniquenickname.myapplication.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import ru.myuniquenickname.myapplication.data.Actor
+import ru.myuniquenickname.myapplication.domain.entity.Actor
 import ru.myuniquenickname.myapplication.databinding.ViewHolderActorBinding
 
 class RecyclerViewAdapterActors(private val castList: List<Actor>) :
