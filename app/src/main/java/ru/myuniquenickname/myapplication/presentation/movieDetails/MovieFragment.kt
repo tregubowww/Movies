@@ -12,15 +12,13 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesDetailsBinding
 import ru.myuniquenickname.myapplication.domain.entity.Actor
 import ru.myuniquenickname.myapplication.domain.entity.Movie
-import ru.myuniquenickname.myapplication.presentation.adapters.RecyclerViewAdapterActors
-import ru.myuniquenickname.myapplication.presentation.ViewModelMovie
+import ru.myuniquenickname.myapplication.presentation.MainViewModel
 
-
-class FragmentMoviesDetails() : Fragment() {
+class MovieFragment : Fragment() {
 
     private var _binding: FragmentMoviesDetailsBinding? = null
     private val binding get() = _binding!!
-    private val viewModelMovieList by sharedViewModel<ViewModelMovie>()
+    private val viewModelMovieList by sharedViewModel<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,17 +32,17 @@ class FragmentMoviesDetails() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModelMovieList.mutableMovie.value?.let { updateContent(it) }
-        viewModelMovieList.mutableMovie.value?.actors?.let { checkActorListIsEmpty(it) }
+        viewModelMovieList.mutableMovie.value?.actors?.let { createRecyclerView(it) }
     }
 
-    private fun checkActorListIsEmpty(actors: List<Actor>) {
+    private fun createRecyclerView(actors: List<Actor>) {
         if (actors.isEmpty()) {
             binding.cast.visibility = View.INVISIBLE
         } else {
             binding.cast.visibility = View.VISIBLE
             val recyclerView = binding.castRecyclerView
             recyclerView.setHasFixedSize(true)
-            recyclerView.adapter = RecyclerViewAdapterActors(actors)
+            recyclerView.adapter = ActorsAdapter(actors)
             recyclerView.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
@@ -76,5 +74,3 @@ class FragmentMoviesDetails() : Fragment() {
         _binding = null
     }
 }
-
-

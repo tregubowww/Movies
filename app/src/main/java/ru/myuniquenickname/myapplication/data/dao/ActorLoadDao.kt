@@ -5,8 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import ru.myuniquenickname.myapplication.data.DataMapping.ActorDto
+import ru.myuniquenickname.myapplication.data.dataMapping.ActorDto
 import ru.myuniquenickname.myapplication.domain.entity.Actor
+import ru.myuniquenickname.myapplication.utils.readAssetFileToString
 
 class ActorLoadDao(private val context: Context) {
     private val jsonFormat = Json { ignoreUnknownKeys = true }
@@ -21,8 +22,4 @@ class ActorLoadDao(private val context: Context) {
         return jsonActors.map { Actor(id = it.id, name = it.name, picture = it.profilePicture) }
     }
 
-    private fun readAssetFileToString(context: Context, fileName: String): String {
-        val stream = context.assets.open(fileName)
-        return stream.bufferedReader().readText()
-    }
 }

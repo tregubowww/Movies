@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import ru.myuniquenickname.myapplication.domain.entity.Movie
 import ru.myuniquenickname.myapplication.domain.inteactor.GetMovies
 
-class ViewModelMovie(private val getMovies: GetMovies) : ViewModel() {
+class MainViewModel(private val getMovies: GetMovies) : ViewModel() {
 
     private val _mutableMoviesList = MutableLiveData<List<Movie>>()
     private val _mutableLoadingState = MutableLiveData<Boolean>()
@@ -20,7 +20,7 @@ class ViewModelMovie(private val getMovies: GetMovies) : ViewModel() {
     private fun loadMovies() {
         viewModelScope.launch {
             _mutableLoadingState.value = true
-            _mutableMoviesList.value = getMovies.getMovies()
+            _mutableMoviesList.value = getMovies.getMoviesList()
             _mutableLoadingState.value = false
         }
     }

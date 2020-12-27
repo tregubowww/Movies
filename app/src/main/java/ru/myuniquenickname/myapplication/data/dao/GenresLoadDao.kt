@@ -5,8 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import ru.myuniquenickname.myapplication.data.DataMapping.GenreDto
+import ru.myuniquenickname.myapplication.data.dataMapping.GenreDto
 import ru.myuniquenickname.myapplication.domain.entity.Genre
+import ru.myuniquenickname.myapplication.utils.readAssetFileToString
 
 class GenresLoadDao(private val context: Context) {
     private val jsonFormat = Json { ignoreUnknownKeys = true }
@@ -19,10 +20,5 @@ class GenresLoadDao(private val context: Context) {
     private fun parseGenres(data: String): List<Genre> {
         val jsonGenres = jsonFormat.decodeFromString<List<GenreDto>>(data)
         return jsonGenres.map { Genre(id = it.id, name = it.name) }
-    }
-
-    private fun readAssetFileToString(context: Context, fileName: String): String {
-        val stream = context.assets.open(fileName)
-        return stream.bufferedReader().readText()
     }
 }

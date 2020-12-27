@@ -13,16 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
 import ru.myuniquenickname.myapplication.domain.entity.Movie
-import ru.myuniquenickname.myapplication.presentation.ViewModelMovie
-import ru.myuniquenickname.myapplication.presentation.adapters.RecyclerViewAdapterMovies
+import ru.myuniquenickname.myapplication.presentation.MainViewModel
 
-
-class FragmentMovieList : Fragment() {
+class MovieListFragment : Fragment() {
 
     private var listener: TransactionsFragmentClicks? = null
     private var _binding: FragmentMoviesListBinding? = null
     private val binding get() = _binding!!
-    private val viewModelMovieList: ViewModelMovie by sharedViewModel()
+    private val mainViewModelList: MainViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,10 +55,13 @@ class FragmentMovieList : Fragment() {
     }
 
     private fun createRecyclerView() {
-        val adapterMovies = RecyclerViewAdapterMovies(clickListener)
-        viewModelMovieList.movieList.observe(this, {
-            adapterMovies.submitList(it)
-        })
+        val adapterMovies = MoviesAdapter(clickListener)
+        mainViewModelList.movieList.observe(
+            this,
+            {
+                adapterMovies.submitList(it)
+            }
+        )
         val recyclerView = binding.recyclerMovie
         recyclerView.setHasFixedSize(true)
         changeSpanCount(recyclerView)
@@ -68,16 +69,21 @@ class FragmentMovieList : Fragment() {
     }
 
     private fun changeVisibilityProgressBar() {
-        viewModelMovieList.loadingState.observe(this, {
-            binding.progressBar.isVisible = it
-        })
+        mainViewModelList.loadingState.observe(
+            this,
+            {
+                binding.progressBar.isVisible = it
+            }
+        )
     }
 
     private fun changeSpanCount(recyclerView: RecyclerView) {
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.layoutManager = GridLayoutManager(context, 2)
+            recyclerView.layoutManager =
+                GridLayoutManager(context, Companion.SPAN_COUNT_ORIENTATION_PORTRAIT)
         } else {
-            recyclerView.layoutManager = GridLayoutManager(context, 3)
+            recyclerView.layoutManager =
+                GridLayoutManager(context, SPAN_COUNT_ORIENTATION_LANDSCAPE)
         }
     }
 
@@ -85,10 +91,15 @@ class FragmentMovieList : Fragment() {
         fun replaceFragment()
     }
 
-    private val clickListener = object : RecyclerViewAdapterMovies.OnRecyclerItemClicked {
+    private val clickListener = object : MoviesAdapter.OnRecyclerItemClicked {
         override fun onClick(movie: Movie) {
-            viewModelMovieList.mutableMovie.value = movie
+            mainViewModelList.mutableMovie.value = movie
             listener?.replaceFragment()
         }
+    }
+
+    companion object {
+        private const val SPAN_COUNT_ORIENTATION_PORTRAIT = 2
+        private const val SPAN_COUNT_ORIENTATION_LANDSCAPE = 3
     }
 }

@@ -1,8 +1,5 @@
 package ru.myuniquenickname.myapplication.domain.entity
 
-import ru.myuniquenickname.myapplication.domain.entity.Actor
-import ru.myuniquenickname.myapplication.domain.entity.Genre
-
 data class Movie(
     var like: Boolean,
     val id: Int,
@@ -16,7 +13,4 @@ data class Movie(
     val runtime: Int,
     val actors: List<Actor>,
     val genres: List<Genre>
-
 )
-
-

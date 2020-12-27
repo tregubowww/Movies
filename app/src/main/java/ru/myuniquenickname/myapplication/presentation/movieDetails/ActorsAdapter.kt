@@ -1,4 +1,4 @@
-package ru.myuniquenickname.myapplication.presentation.adapters
+package ru.myuniquenickname.myapplication.presentation.movieDetails
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,19 +9,19 @@ import com.bumptech.glide.Glide
 import ru.myuniquenickname.myapplication.domain.entity.Actor
 import ru.myuniquenickname.myapplication.databinding.ViewHolderActorBinding
 
-class RecyclerViewAdapterActors(private val castList: List<Actor>) :
-    RecyclerView.Adapter<RecyclerViewAdapterActors.RecyclerViewViewHolder>() {
+class ActorsAdapter(private val castList: List<Actor>) :
+    RecyclerView.Adapter<ActorsAdapter.ActorsViewHolder>() {
 
-    class RecyclerViewViewHolder(val binding: ViewHolderActorBinding) :
+    class ActorsViewHolder(val binding: ViewHolderActorBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ViewHolderActorBinding.inflate(layoutInflater, parent, false)
-        return RecyclerViewViewHolder(binding)
+        return ActorsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerViewViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ActorsViewHolder, position: Int) {
         val castItem = castList[position]
         holder.binding.apply {
             putPosterImage(root, castItem.picture, imageActor)

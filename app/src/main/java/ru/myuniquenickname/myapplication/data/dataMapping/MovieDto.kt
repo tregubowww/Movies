@@ -1,4 +1,4 @@
-package ru.myuniquenickname.myapplication.data.DataMapping
+package ru.myuniquenickname.myapplication.data.dataMapping
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

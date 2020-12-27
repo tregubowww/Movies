@@ -7,7 +7,7 @@ import ru.myuniquenickname.myapplication.data.dao.ActorLoadDao
 import ru.myuniquenickname.myapplication.data.dao.GenresLoadDao
 import ru.myuniquenickname.myapplication.data.dao.MoviesLoadDao
 import ru.myuniquenickname.myapplication.domain.inteactor.GetMovies
-import ru.myuniquenickname.myapplication.presentation.ViewModelMovie
+import ru.myuniquenickname.myapplication.presentation.MainViewModel
 
 val appModule = module {
     single { ActorLoadDao(androidContext()) }
@@ -17,6 +17,5 @@ val appModule = module {
 }
 
 val viewModel = module {
-    viewModel { ViewModelMovie(get()) }
+    viewModel { MainViewModel(get()) }
 }
-

@@ -1,4 +1,4 @@
-package ru.myuniquenickname.myapplication.presentation.adapters
+package ru.myuniquenickname.myapplication.presentation.movieList
 
 import android.graphics.PorterDuff
 import android.view.LayoutInflater
@@ -12,21 +12,21 @@ import com.bumptech.glide.Glide
 import ru.myuniquenickname.myapplication.databinding.ViewHolderMovieBinding
 import ru.myuniquenickname.myapplication.domain.entity.Movie
 
-class RecyclerViewAdapterMovies(
+class MoviesAdapter(
     private val clickListener: OnRecyclerItemClicked
 ) :
-    ListAdapter<Movie, RecyclerViewAdapterMovies.RecyclerViewViewHolder>(MovieDiffCallback()) {
+    ListAdapter<Movie, MoviesAdapter.MoviesViewHolder>(MovieDiffCallback()) {
 
-    class RecyclerViewViewHolder(val binding: ViewHolderMovieBinding) :
+    class MoviesViewHolder(val binding: ViewHolderMovieBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ViewHolderMovieBinding.inflate(layoutInflater, parent, false)
-        return RecyclerViewViewHolder(binding)
+        return MoviesViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerViewViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         val itemMovies = getItem(position)
         holder.binding.apply {
             putPosterImage(root, itemMovies.poster, poster)
@@ -68,7 +68,6 @@ class RecyclerViewAdapterMovies(
     interface OnRecyclerItemClicked {
         fun onClick(itemMovies: Movie)
     }
-
 }
 
 private class MovieDiffCallback : DiffUtil.ItemCallback<Movie>() {
@@ -79,4 +78,3 @@ private class MovieDiffCallback : DiffUtil.ItemCallback<Movie>() {
     override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
         (oldItem.numberOfRatings == newItem.numberOfRatings && oldItem.ratings == newItem.ratings)
 }
-

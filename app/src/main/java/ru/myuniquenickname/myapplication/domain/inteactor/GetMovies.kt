@@ -6,7 +6,7 @@ import ru.myuniquenickname.myapplication.domain.entity.Movie
 class GetMovies(
     private val moviesLoadDao: MoviesLoadDao
 ) {
-    suspend fun getMovies(): List<Movie> {
+    suspend fun getMoviesList(): List<Movie> {
         return moviesLoadDao.loadMovies()
     }
 }
