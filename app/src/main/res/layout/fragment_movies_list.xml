@@ -7,6 +7,29 @@
     android:background="@color/background_fragment"
     tools:context=".presentation.movieList.MovieListFragment">
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="16"
+        android:layout_margin="8dp"
+        android:id="@+id/editMovieText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/white"
+
+        />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchButton"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editMovieText"
+        app:layout_constraintBottom_toBottomOf="@id/editMovieText"
+        app:layout_constraintStart_toEndOf="@id/editMovieText"
+        android:src="@drawable/ic_baseline_search_24"
+        />
 
     <ImageView
         android:id="@+id/shape"
@@ -14,23 +37,21 @@
         android:layout_height="15dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="35sp"
-        tools:src="@drawable/shape"
+        android:src="@drawable/shape"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editMovieText" />
 
-    <TextView
-        android:id="@+id/textViewList"
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/roboto_black"
-        android:text="@string/movies_list"
-        android:textColor="@color/textColorWhite"
-        android:textSize="14sp"
-        android:textStyle="bold"
+        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/shape"
         app:layout_constraintStart_toEndOf="@+id/shape"
-        app:layout_constraintTop_toTopOf="@+id/shape" />
+        app:layout_constraintTop_toTopOf="@+id/shape"
+        android:backgroundTint="@color/white"
+        />
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -49,7 +70,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewList"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/view_holder_movie"
         tools:spanCount="2"

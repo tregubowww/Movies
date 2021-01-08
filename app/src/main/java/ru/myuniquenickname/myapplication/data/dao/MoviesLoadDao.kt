@@ -1,62 +1,74 @@
 package ru.myuniquenickname.myapplication.data.dao
 
-import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import ru.myuniquenickname.myapplication.data.dataMapping.MovieDto
-import ru.myuniquenickname.myapplication.domain.entity.Actor
+import ru.myuniquenickname.myapplication.data.api.MoviesApi
+import ru.myuniquenickname.myapplication.data.dataMapping.GenreDto
+import ru.myuniquenickname.myapplication.data.dataMapping.ImageDto
+import ru.myuniquenickname.myapplication.data.dataMapping.ResultMoviesDto
 import ru.myuniquenickname.myapplication.domain.entity.Genre
 import ru.myuniquenickname.myapplication.domain.entity.Movie
-import ru.myuniquenickname.myapplication.utils.readAssetFileToString
 
 class MoviesLoadDao(
-    private val context: Context,
-    private val actorLoadDao: ActorLoadDao,
-    private val genresLoadDao: GenresLoadDao
+    private val movieApi: MoviesApi
 ) {
 
-    private val jsonFormat = Json { ignoreUnknownKeys = true }
+    suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
+        parseMovies(
+            movieApi.getGenres().genres,
+            movieApi.getMoviesPopular().results,
+            movieApi.getImage()
+        )
+    }
+    suspend fun loadMovieTopList(): List<Movie> = withContext(Dispatchers.IO) {
+        parseMovies(
+            movieApi.getGenres().genres,
+            movieApi.getMoviesTopMovies().results,
+            movieApi.getImage()
+        )
+    }
+    suspend fun loadMovieUpcomingList(): List<Movie> = withContext(Dispatchers.IO) {
+        parseMovies(
+            movieApi.getGenres().genres,
+            movieApi.getMoviesUpcoming().results,
+            movieApi.getImage()
+        )
+    }
 
-    suspend fun loadMovies(): List<Movie> = withContext(Dispatchers.IO) {
-        val actorsMap = actorLoadDao.loadActors()
-        val genresMap = genresLoadDao.loadGenres()
-        val data = readAssetFileToString(context, "data.json")
-        parseMovies(data, genresMap, actorsMap)
+    suspend fun loadMovieSearchList(movie: String): List<Movie>? = withContext(Dispatchers.IO) {
+        parseMovies(
+            movieApi.getGenres().genres,
+            movieApi.getMoviesSearch(movie).results,
+            movieApi.getImage()
+        )
     }
 
     private fun parseMovies(
-        data: String,
-        genres: List<Genre>,
-        actors: List<Actor>
+        genresDto: List<GenreDto>,
+        moviesDto: List<ResultMoviesDto>,
+        imageDto: ImageDto
+
     ): List<Movie> {
-        val genresMap = genres.associateBy { it.id }
-        val actorsMap = actors.associateBy { it.id }
+        val imageBaseUrl = imageDto.images.secureBaseURL + imageDto.images.posterSizes[3]
+        val genresMap = genresDto.map { Genre(id = it.id, name = it.name) }.associateBy { it.id }
 
-        val jsonMovies = jsonFormat.decodeFromString<List<MovieDto>>(data)
-
-        return jsonMovies.map { jsonMovie ->
+        return moviesDto.map { movieDto ->
             @Suppress("unused")
             (
                 Movie
                 (
-                    id = jsonMovie.id,
-                    title = jsonMovie.title,
-                    overview = jsonMovie.overview,
-                    poster = jsonMovie.posterPicture,
-                    backdrop = jsonMovie.backdropPicture,
-                    ratings = jsonMovie.ratings,
-                    numberOfRatings = jsonMovie.votesCount,
-                    minimumAge = if (jsonMovie.adult) 16 else 13,
-                    runtime = jsonMovie.runtime,
+                    id = movieDto.id,
+                    title = movieDto.title,
+                    overview = movieDto.overview,
+                    poster = imageBaseUrl + movieDto.posterPath,
+                    backdrop = movieDto.backdropPath,
+                    ratings = movieDto.rating,
+                    numberOfRatings = movieDto.ratingCount,
+                    minimumAge = if (movieDto.adult) 16 else 13,
                     like = false,
-                    genres = jsonMovie.genreIds.map {
+                    genres = movieDto.genreIDS.map {
                         genresMap[it] ?: throw IllegalArgumentException("Genre not found")
                     },
-                    actors = jsonMovie.actors.map {
-                        actorsMap[it] ?: throw IllegalArgumentException("Actor not found")
-                    }
                 )
                 )
         }

@@ -4,9 +4,19 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class ActorDto(
-    val id: Int,
+data class ActorListDto(
+    val id: Long,
+    val cast: List<ActorDto>,
+)
+
+@Serializable
+data class ActorDto(
+    val adult: Boolean,
+    val gender: Long,
+    val id: Long,
     val name: String,
+    val popularity: Double,
+
     @SerialName("profile_path")
-    val profilePicture: String
+    val profilePath: String? = null
 )

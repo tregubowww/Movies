@@ -17,6 +17,8 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "API_KEY", '"3b4970990228d308657e91ae5af780b1"'
+        buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/3/"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,6 +57,9 @@ dependencies {
     implementation "org.koin:koin-android:2.0.1"
     implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
     implementation 'org.koin:koin-androidx-scope:2.0.1'
-
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
+    implementation 'io.coil-kt:coil:1.1.0'
 
 }
