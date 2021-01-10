@@ -20,6 +20,7 @@ class MoviesLoadDao(
             movieApi.getImage()
         )
     }
+
     suspend fun loadMovieTopList(): List<Movie> = withContext(Dispatchers.IO) {
         parseMovies(
             movieApi.getGenres().genres,
@@ -27,6 +28,7 @@ class MoviesLoadDao(
             movieApi.getImage()
         )
     }
+
     suspend fun loadMovieUpcomingList(): List<Movie> = withContext(Dispatchers.IO) {
         parseMovies(
             movieApi.getGenres().genres,
@@ -56,12 +58,12 @@ class MoviesLoadDao(
             @Suppress("unused")
             (
                 Movie
-                (
+                    (
                     id = movieDto.id,
                     title = movieDto.title,
                     overview = movieDto.overview,
                     poster = imageBaseUrl + movieDto.posterPath,
-                    backdrop = movieDto.backdropPath,
+                    backdrop = movieDto.backdropPath ?: "",
                     ratings = movieDto.rating,
                     numberOfRatings = movieDto.ratingCount,
                     minimumAge = if (movieDto.adult) 16 else 13,
