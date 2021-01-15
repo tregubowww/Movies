@@ -23,6 +23,7 @@ class MoviesLoadDao(
             movieApi.getImage()
         )
     }
+
     suspend fun loadMovieTopList(): List<Movie> = withContext(Dispatchers.IO) {
         parseMovies(
             movieApi.getGenres().genres,
@@ -30,6 +31,7 @@ class MoviesLoadDao(
             movieApi.getImage()
         )
     }
+
     suspend fun loadMovieUpcomingList(): List<Movie> = withContext(Dispatchers.IO) {
         parseMovies(
             movieApi.getGenres().genres,
@@ -59,7 +61,7 @@ class MoviesLoadDao(
             @Suppress("unused")
             (
                 Movie
-                (
+                    (
                     id = movieDto.id,
                     title = movieDto.title,
                     overview = movieDto.overview,
