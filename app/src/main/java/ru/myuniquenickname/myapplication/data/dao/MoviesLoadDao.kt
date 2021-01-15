@@ -8,6 +8,9 @@ import ru.myuniquenickname.myapplication.data.dataMapping.ImageDto
 import ru.myuniquenickname.myapplication.data.dataMapping.ResultMoviesDto
 import ru.myuniquenickname.myapplication.domain.entity.Genre
 import ru.myuniquenickname.myapplication.domain.entity.Movie
+import ru.myuniquenickname.myapplication.presentation.utils.ADULT
+import ru.myuniquenickname.myapplication.presentation.utils.MINOR
+import ru.myuniquenickname.myapplication.presentation.utils.POSTER_SIZES_W342
 
 class MoviesLoadDao(
     private val movieApi: MoviesApi
@@ -35,7 +38,7 @@ class MoviesLoadDao(
         )
     }
 
-    suspend fun loadMovieSearchList(movie: String): List<Movie>? = withContext(Dispatchers.IO) {
+    suspend fun loadMovieSearchList(movie: String): List<Movie> = withContext(Dispatchers.IO) {
         parseMovies(
             movieApi.getGenres().genres,
             movieApi.getMoviesSearch(movie).results,
@@ -49,7 +52,7 @@ class MoviesLoadDao(
         imageDto: ImageDto
 
     ): List<Movie> {
-        val imageBaseUrl = imageDto.images.secureBaseURL + imageDto.images.posterSizes[3]
+        val imageBaseUrl = imageDto.images.secureBaseURL + imageDto.images.posterSizes[POSTER_SIZES_W342]
         val genresMap = genresDto.map { Genre(id = it.id, name = it.name) }.associateBy { it.id }
 
         return moviesDto.map { movieDto ->
@@ -61,10 +64,10 @@ class MoviesLoadDao(
                     title = movieDto.title,
                     overview = movieDto.overview,
                     poster = imageBaseUrl + movieDto.posterPath,
-                    backdrop = movieDto.backdropPath,
+                    backdrop = movieDto.backdropPath ?: "",
                     ratings = movieDto.rating,
                     numberOfRatings = movieDto.ratingCount,
-                    minimumAge = if (movieDto.adult) 16 else 13,
+                    minimumAge = if (movieDto.adult) ADULT else MINOR,
                     like = false,
                     genres = movieDto.genreIDS.map {
                         genresMap[it] ?: throw IllegalArgumentException("Genre not found")

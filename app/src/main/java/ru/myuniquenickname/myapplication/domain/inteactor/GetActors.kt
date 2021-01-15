@@ -6,7 +6,7 @@ import ru.myuniquenickname.myapplication.domain.entity.Actor
 class GetActors(
     private val actorsLoadDao: ActorsLoadDao
 ) {
-    suspend fun getActors(id: Long): List<Actor> {
+    suspend fun getActorList(id: Long): List<Actor> {
         return actorsLoadDao.loadActors(id)
     }
 }

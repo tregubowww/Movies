@@ -13,7 +13,7 @@ data class ResultMoviesDto(
     val adult: Boolean,
 
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
 
     @SerialName("genre_ids")
     val genreIDS: List<Long>,
@@ -30,10 +30,7 @@ data class ResultMoviesDto(
     val popularity: Double,
 
     @SerialName("poster_path")
-    val posterPath: String,
-
-    @SerialName("release_date")
-    val releaseDate: String,
+    val posterPath: String?,
 
     val title: String,
     val video: Boolean,
@@ -42,5 +39,5 @@ data class ResultMoviesDto(
     val rating: Float,
 
     @SerialName("vote_count")
-    val ratingCount: Long
+    val ratingCount: Long,
 )

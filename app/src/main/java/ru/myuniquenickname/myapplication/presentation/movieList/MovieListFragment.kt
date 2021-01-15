@@ -3,16 +3,21 @@ package ru.myuniquenickname.myapplication.presentation.movieList
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.myuniquenickname.myapplication.R
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
@@ -23,6 +28,7 @@ class MovieListFragment : Fragment() {
     private var _binding: FragmentMoviesListBinding? = null
     private val binding get() = _binding!!
     private val movieListViewModel: MovieListViewModel by viewModel()
+    private lateinit var adapterMovies: MoviesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +36,7 @@ class MovieListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
+        adapterMovies = MoviesAdapter(clickListener)
         return binding.root
     }
 
@@ -59,15 +66,15 @@ class MovieListFragment : Fragment() {
     }
 
     private fun createRecyclerView() {
-        val adapterMovies = MoviesAdapter(clickListener)
         movieListViewModel.movieList.observe(
             this,
             {
+                binding.spinner.visibility = View.VISIBLE
                 adapterMovies.submitList(it)
             }
         )
         val recyclerView = binding.recyclerMovie
-//        recyclerView.setHasFixedSize(true)
+        recyclerView.setHasFixedSize(true)
         changeSpanCount(recyclerView)
         recyclerView.adapter = adapterMovies
     }
@@ -118,12 +125,61 @@ class MovieListFragment : Fragment() {
     }
 
     private fun search() {
-        binding.searchButton.setOnClickListener {
-            val textSearch = binding.editMovieText.text.toString()
-            if (textSearch.isNotEmpty()) {
-                movieListViewModel.searchMovie(textSearch)
+
+        binding.editMovieText.doAfterTextChanged {
+            lifecycleScope.launch {
+                movieListViewModel.queryChannel.send(it.toString())
             }
         }
+        movieListViewModel.moviesListSearch.observe(
+            this,
+            {
+                when (it) {
+                    is ValidResult -> {
+                        adapterMovies.submitList(it.result)
+                        binding.spinner.visibility = View.INVISIBLE
+                    }
+                    is ErrorResult -> {
+                        val toast = Toast.makeText(
+                            activity,
+                            "Something went wrong when downloading movies. Please, check your connection and try again",
+                            Toast.LENGTH_SHORT
+                        )
+                        toast.setGravity(Gravity.TOP, 0, 0)
+                        toast.show()
+                    }
+                    is EmptyResult -> {
+                        val toast = Toast.makeText(
+                            activity,
+                            "No results matching your query",
+                            Toast.LENGTH_SHORT
+                        )
+                        toast.setGravity(Gravity.TOP, 0, 0)
+                        toast.show()
+                    }
+
+                    is EmptyQuery -> {
+                        movieListViewModel.loadPopularMovies()
+                        val toast = Toast.makeText(
+                            activity,
+                            "Empty query",
+                            Toast.LENGTH_SHORT
+                        )
+                        toast.setGravity(Gravity.TOP, 0, 0)
+                        toast.show()
+                    }
+                    is TerminalError -> {
+                        val toast = Toast.makeText(
+                            activity,
+                            "Unexpected error while trying to fetch movies!",
+                            Toast.LENGTH_SHORT
+                        )
+                        toast.setGravity(Gravity.TOP, 0, 0)
+                        toast.show()
+                    }
+                }
+            }
+        )
     }
 
     interface TransactionsFragmentClicks {

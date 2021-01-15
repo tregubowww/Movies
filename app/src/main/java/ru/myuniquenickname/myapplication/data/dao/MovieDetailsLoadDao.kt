@@ -6,6 +6,9 @@ import ru.myuniquenickname.myapplication.data.api.MoviesApi
 import ru.myuniquenickname.myapplication.data.dataMapping.ImagesDto
 import ru.myuniquenickname.myapplication.data.dataMapping.MovieDetailsDto
 import ru.myuniquenickname.myapplication.domain.entity.MovieDetails
+import ru.myuniquenickname.myapplication.presentation.utils.ADULT
+import ru.myuniquenickname.myapplication.presentation.utils.BACKDROP_SIZES_W780
+import ru.myuniquenickname.myapplication.presentation.utils.MINOR
 
 class MovieDetailsLoadDao(
     private val movieApi: MoviesApi
@@ -18,11 +21,11 @@ class MovieDetailsLoadDao(
         movieDetailsDto: MovieDetailsDto,
         baseUrlDto: ImagesDto
     ): MovieDetails {
-        val imageBaseUrl = baseUrlDto.secureBaseURL + baseUrlDto.backdropSizes[1]
+        val imageBaseUrl = baseUrlDto.secureBaseURL + baseUrlDto.backdropSizes[BACKDROP_SIZES_W780]
         return MovieDetails(
             like = false,
             backdrop = imageBaseUrl + movieDetailsDto.backdropPath,
-            minimumAge = if (movieDetailsDto.adult) 16 else 13,
+            minimumAge = if (movieDetailsDto.adult) ADULT else MINOR,
             ratings = movieDetailsDto.rating,
             title = movieDetailsDto.title,
             overview = movieDetailsDto.overview,
@@ -31,4 +34,6 @@ class MovieDetailsLoadDao(
             genres = movieDetailsDto.genres.joinToString { it.name }
         )
     }
+
+
 }

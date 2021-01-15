@@ -34,7 +34,7 @@ class MovieViewModel(
     fun loadActors(id: Long) {
         viewModelScope.launch {
             _mutableLoadingState.value = true
-            _mutableActor.value = getActorList.getActors(id)
+            _mutableActor.value = getActorList.getActorList(id)
             _mutableLoadingState.value = false
         }
     }

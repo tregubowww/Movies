@@ -7,9 +7,10 @@ import ru.myuniquenickname.myapplication.BuildConfig
 class MoviesApiHeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
+        val url = originalRequest.url.newBuilder().addQueryParameter(API_KEY_HEADER, BuildConfig.API_KEY).build()
 
         val request = originalRequest.newBuilder()
-            .addHeader(API_KEY_HEADER, BuildConfig.API_KEY)
+            .url(url)
             .build()
 
         return chain.proceed(request)

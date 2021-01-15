@@ -16,7 +16,7 @@ class GetMovies(
         return moviesLoadDao.loadMovieUpcomingList()
     }
 
-    suspend fun getMovieSearchList(movie: String): List<Movie>? {
+    suspend fun getMovieSearchList(movie: String): List<Movie> {
         return moviesLoadDao.loadMovieSearchList(movie)
     }
 }

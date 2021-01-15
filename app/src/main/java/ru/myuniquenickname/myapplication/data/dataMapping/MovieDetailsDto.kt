@@ -8,7 +8,7 @@ data class MovieDetailsDto(
     val adult: Boolean,
 
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
 
     val genres: List<GenreDto>,
     val id: Long,
