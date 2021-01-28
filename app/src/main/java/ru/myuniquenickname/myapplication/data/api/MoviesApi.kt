@@ -6,8 +6,9 @@ import retrofit2.http.Query
 import ru.myuniquenickname.myapplication.data.dataMapping.GenresListDto
 import ru.myuniquenickname.myapplication.data.dataMapping.ImageDto
 import ru.myuniquenickname.myapplication.data.dataMapping.MovieDetailsDto
-import ru.myuniquenickname.myapplication.data.dataMapping.MoviesDto
+import ru.myuniquenickname.myapplication.data.dataMapping.ResultMoviesDto
 import ru.myuniquenickname.myapplication.data.dataMapping.ActorListDto
+import ru.myuniquenickname.myapplication.data.dataMapping.MoviesDto
 
 interface MoviesApi {
     @GET("movie/popular")

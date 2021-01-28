@@ -33,7 +33,7 @@ class MoviesAdapter(
             ageFragmentList.text = itemMovies.minimumAge.toString() + "+"
             ratingBarFragmentList.rating = itemMovies.ratings / 2
             name.text = itemMovies.title
-            genres.text = itemMovies.genres.joinToString { it.name }
+            genres.text = itemMovies.genres
             reviewsFragmentList.text = itemMovies.numberOfRatings.toString() + " REVIEWS"
             onClickLike(itemMovies.like, imageViewLike, itemMovies)
         }

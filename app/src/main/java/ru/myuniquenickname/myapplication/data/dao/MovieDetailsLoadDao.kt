@@ -3,12 +3,9 @@ package ru.myuniquenickname.myapplication.data.dao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.myuniquenickname.myapplication.data.api.MoviesApi
-import ru.myuniquenickname.myapplication.data.dataMapping.ImagesDto
+import ru.myuniquenickname.myapplication.data.dataMapping.ImagesInfoDto
 import ru.myuniquenickname.myapplication.data.dataMapping.MovieDetailsDto
 import ru.myuniquenickname.myapplication.domain.entity.MovieDetails
-import ru.myuniquenickname.myapplication.presentation.utils.ADULT
-import ru.myuniquenickname.myapplication.presentation.utils.BACKDROP_SIZES_W780
-import ru.myuniquenickname.myapplication.presentation.utils.MINOR
 
 class MovieDetailsLoadDao(
     private val movieApi: MoviesApi
@@ -19,10 +16,11 @@ class MovieDetailsLoadDao(
 
     private fun parseMovie(
         movieDetailsDto: MovieDetailsDto,
-        baseUrlDto: ImagesDto
+        baseUrlDto: ImagesInfoDto
     ): MovieDetails {
         val imageBaseUrl = baseUrlDto.secureBaseURL + baseUrlDto.backdropSizes[BACKDROP_SIZES_W780]
         return MovieDetails(
+            id = movieDetailsDto.id,
             like = false,
             backdrop = imageBaseUrl + movieDetailsDto.backdropPath,
             minimumAge = if (movieDetailsDto.adult) ADULT else MINOR,
@@ -34,6 +32,9 @@ class MovieDetailsLoadDao(
             genres = movieDetailsDto.genres.joinToString { it.name }
         )
     }
-
-
+    companion object{
+        const val ADULT = 16
+        const val MINOR = 13
+        const val BACKDROP_SIZES_W780 = 1
+    }
 }

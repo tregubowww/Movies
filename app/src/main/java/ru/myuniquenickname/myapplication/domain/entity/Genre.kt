@@ -1,3 +1,10 @@
 package ru.myuniquenickname.myapplication.domain.entity
 
-data class Genre(val id: Long, val name: String)
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
+
+data class Genre (
+    val id: Long,
+    val name: String,
+)

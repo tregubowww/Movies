@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.myuniquenickname.myapplication.data.api.MoviesApi
 import ru.myuniquenickname.myapplication.data.dataMapping.ActorListDto
-import ru.myuniquenickname.myapplication.data.dataMapping.ImagesDto
+import ru.myuniquenickname.myapplication.data.dataMapping.ImagesInfoDto
 import ru.myuniquenickname.myapplication.domain.entity.Actor
 
 class ActorsLoadDao(private val movieApi: MoviesApi) {
@@ -16,7 +16,7 @@ class ActorsLoadDao(private val movieApi: MoviesApi) {
         )
     }
 
-    private fun parseActors(actorListDto: ActorListDto, baseUrlDto: ImagesDto): List<Actor> {
+    private fun parseActors(actorListDto: ActorListDto, baseUrlDto: ImagesInfoDto): List<Actor> {
         val imageBaseUrl = baseUrlDto.secureBaseURL + baseUrlDto.profileSizes[1]
         return actorListDto.cast.map {
             Actor(

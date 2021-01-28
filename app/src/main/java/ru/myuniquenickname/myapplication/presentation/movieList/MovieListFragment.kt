@@ -43,7 +43,7 @@ class MovieListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         changeVisibilityProgressBar()
-        loadMoviesAndCreateSpinner()
+        loadMovies()
         createRecyclerView()
         search()
     }
@@ -66,13 +66,6 @@ class MovieListFragment : Fragment() {
     }
 
     private fun createRecyclerView() {
-        movieListViewModel.movieList.observe(
-            this,
-            {
-                binding.spinner.visibility = View.VISIBLE
-                adapterMovies.submitList(it)
-            }
-        )
         val recyclerView = binding.recyclerMovie
         recyclerView.setHasFixedSize(true)
         changeSpanCount(recyclerView)
@@ -80,10 +73,19 @@ class MovieListFragment : Fragment() {
     }
 
     private fun changeVisibilityProgressBar() {
+
+
         movieListViewModel.loadingState.observe(
             this,
             {
-                binding.progressBar.isVisible = it
+                when (it.status) {
+                    LoadingState.Status.FAILED -> {
+                        toastShow(getString(R.string.loading_error))
+                        binding.progressBar.isVisible = false
+                    }
+                    LoadingState.Status.RUNNING -> binding.progressBar.isVisible = true
+                    LoadingState.Status.SUCCESS -> binding.progressBar.isVisible = false
+                }
             }
         )
     }
@@ -98,7 +100,7 @@ class MovieListFragment : Fragment() {
         }
     }
 
-    private fun loadMoviesAndCreateSpinner() {
+    private fun loadMovies() {
 
         val spinner: Spinner = binding.spinner
         ArrayAdapter.createFromResource(
@@ -110,76 +112,52 @@ class MovieListFragment : Fragment() {
             spinner.adapter = adapter
         }
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                when (parent.getItemAtPosition(position)) {
-                    "Popular movies" -> movieListViewModel.loadPopularMovies()
-                    "Top movies" -> movieListViewModel.loadTopMovies()
-                    "Upcoming movies" -> movieListViewModel.loadUpcomingMovies()
-                }
-            }
+        spinner.onItemSelectedListener = createSpinner()
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
+
         }
-    }
 
     private fun search() {
 
         binding.editMovieText.doAfterTextChanged {
             lifecycleScope.launch {
-                movieListViewModel.queryChannel.send(it.toString())
+                    movieListViewModel.queryChannel.send(it.toString())
             }
         }
-        movieListViewModel.moviesListSearch.observe(
-            this,
-            {
-                when (it) {
-                    is ValidResult -> {
-                        adapterMovies.submitList(it.result)
-                        binding.spinner.visibility = View.INVISIBLE
-                    }
-                    is ErrorResult -> {
-                        val toast = Toast.makeText(
-                            activity,
-                            "Something went wrong when downloading movies. Please, check your connection and try again",
-                            Toast.LENGTH_SHORT
-                        )
-                        toast.setGravity(Gravity.TOP, 0, 0)
-                        toast.show()
-                    }
-                    is EmptyResult -> {
-                        val toast = Toast.makeText(
-                            activity,
-                            "No results matching your query",
-                            Toast.LENGTH_SHORT
-                        )
-                        toast.setGravity(Gravity.TOP, 0, 0)
-                        toast.show()
-                    }
+                movieListViewModel.moviesListSearch.observe(
+                    this@MovieListFragment,
+                    {
+                        when (it) {
+                            is ValidResult -> {
+                                adapterMovies.submitList(it.result)
+                                binding.spinner.visibility = View.INVISIBLE
+                            }
+                            is ErrorResult -> {
+                                toastShow(getString(R.string.errorResults))
+                            }
+                            is EmptyResult -> {
+                                toastShow(getString(R.string.emptyResults))
+                            }
 
-                    is EmptyQuery -> {
-                        movieListViewModel.loadPopularMovies()
-                        val toast = Toast.makeText(
-                            activity,
-                            "Empty query",
-                            Toast.LENGTH_SHORT
-                        )
-                        toast.setGravity(Gravity.TOP, 0, 0)
-                        toast.show()
+                            is EmptyQuery -> {
+                                binding.spinner.visibility = View.VISIBLE
+                            }
+                            is TerminalError -> {
+                                toastShow(getString(R.string.terminalError))
+                            }
+                        }
                     }
-                    is TerminalError -> {
-                        val toast = Toast.makeText(
-                            activity,
-                            "Unexpected error while trying to fetch movies!",
-                            Toast.LENGTH_SHORT
-                        )
-                        toast.setGravity(Gravity.TOP, 0, 0)
-                        toast.show()
-                    }
-                }
-            }
+                )
+    }
+
+    private fun toastShow(text: String?) {
+        val toast = Toast.makeText(
+            activity,
+            text,
+            Toast.LENGTH_SHORT
         )
+        toast.setGravity(Gravity.TOP, 0, 0)
+        toast.show()
     }
 
     interface TransactionsFragmentClicks {
@@ -191,6 +169,48 @@ class MovieListFragment : Fragment() {
             listener?.replaceFragment(id)
         }
     }
+private fun createSpinner(): AdapterView.OnItemSelectedListener  {
+     return object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(
+            parent: AdapterView<*>,
+            view: View?,
+            position: Int,
+            id: Long
+        ) {
+            when (parent.getItemAtPosition(position)) {
+                getString(R.string.popular_movies) -> {
+                    movieListViewModel.refreshPopularMovies()
+                    movieListViewModel.moviePopularList.observe(
+                        this@MovieListFragment,
+                        {
+                            adapterMovies.submitList(it)
+                        }
+                    )
+                }
+                getString(R.string.top_movies) -> {
+                    movieListViewModel.loadTopMovies()
+                    movieListViewModel.mutableMovieList.observe(
+                        this@MovieListFragment,
+                        {
+                            adapterMovies.submitList(it)
+                        }
+                    )
+                }
+                getString(R.string.upcoming_movies) -> {
+                    movieListViewModel.loadUpcomingMovies()
+                    movieListViewModel.mutableMovieList.observe(
+                        this@MovieListFragment,
+                        {
+                            adapterMovies.submitList(it)
+                        }
+                    )
+                }
+            }
+        }
+        override fun onNothingSelected(parent: AdapterView<*>) {
+        }
+    }
+}
 
     companion object {
         private const val SPAN_COUNT_ORIENTATION_PORTRAIT = 2

@@ -1,5 +1,6 @@
 package ru.myuniquenickname.myapplication.data.dataMapping
 
+import androidx.room.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,6 +11,7 @@ data class MoviesDto(
 
 @Serializable
 data class ResultMoviesDto(
+    val id: Long,
     val adult: Boolean,
 
     @SerialName("backdrop_path")
@@ -17,8 +19,6 @@ data class ResultMoviesDto(
 
     @SerialName("genre_ids")
     val genreIDS: List<Long>,
-
-    val id: Long,
 
     @SerialName("original_language")
     val originalLanguage: String,
