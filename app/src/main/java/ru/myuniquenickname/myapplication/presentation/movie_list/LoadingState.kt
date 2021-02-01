@@ -1,4 +1,4 @@
-package ru.myuniquenickname.myapplication.presentation.movieList
+package ru.myuniquenickname.myapplication.presentation.movie_list
 
 data class LoadingState private constructor(val status: Status, val msg: String? = null) {
     companion object {

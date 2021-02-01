@@ -1,4 +1,4 @@
-package ru.myuniquenickname.myapplication.presentation.movieList
+package ru.myuniquenickname.myapplication.presentation.movie_list
 
 import ru.myuniquenickname.myapplication.domain.entity.Movie
 

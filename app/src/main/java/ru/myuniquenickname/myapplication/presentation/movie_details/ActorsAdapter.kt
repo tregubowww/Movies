@@ -1,4 +1,4 @@
-package ru.myuniquenickname.myapplication.presentation.movieDetails
+package ru.myuniquenickname.myapplication.presentation.movie_details
 
 import android.view.LayoutInflater
 import android.view.View

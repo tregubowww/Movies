@@ -1,12 +1,15 @@
 package ru.myuniquenickname.myapplication.domain.inteactor
 
-import ru.myuniquenickname.myapplication.data.dao.ActorsLoadDao
+import ru.myuniquenickname.myapplication.data.repository.ActorRepository
 import ru.myuniquenickname.myapplication.domain.entity.Actor
 
 class GetActors(
-    private val actorsLoadDao: ActorsLoadDao
+    private val actorRepository: ActorRepository
 ) {
-    suspend fun getActorList(id: Long): List<Actor> {
-        return actorsLoadDao.loadActors(id)
+    suspend fun getActorListFromDb(id: Long): List<Actor>? {
+        return actorRepository.loadActors(id)
+    }
+    suspend fun getActorListFromNetwork(id: Long): List<Actor> {
+        return actorRepository.refreshActor(id)
     }
 }

@@ -16,22 +16,23 @@ import ru.myuniquenickname.myapplication.BuildConfig
 import ru.myuniquenickname.myapplication.data.MovieDatabase
 import ru.myuniquenickname.myapplication.data.api.MoviesApi
 import ru.myuniquenickname.myapplication.data.api.MoviesApiHeaderInterceptor
-import ru.myuniquenickname.myapplication.data.dao.ActorsLoadDao
+import ru.myuniquenickname.myapplication.data.dao.ActorDao
 import ru.myuniquenickname.myapplication.data.dao.MovieDao
-import ru.myuniquenickname.myapplication.data.dao.MovieDetailsLoadDao
+import ru.myuniquenickname.myapplication.data.dao.MovieDetailsDao
+import ru.myuniquenickname.myapplication.data.repository.ActorRepository
+import ru.myuniquenickname.myapplication.data.repository.MovieDetailsRepository
 import ru.myuniquenickname.myapplication.data.repository.MoviesRepository
 import ru.myuniquenickname.myapplication.domain.inteactor.GetActors
 import ru.myuniquenickname.myapplication.domain.inteactor.GetMovieDetail
 import ru.myuniquenickname.myapplication.domain.inteactor.GetMovies
-import ru.myuniquenickname.myapplication.presentation.movieDetails.MovieViewModel
-import ru.myuniquenickname.myapplication.presentation.movieList.MovieListViewModel
+import ru.myuniquenickname.myapplication.presentation.movie_details.MovieViewModel
+import ru.myuniquenickname.myapplication.presentation.movie_list.MovieListViewModel
 
 val appModule = module {
-    single { ActorsLoadDao(get()) }
+
     single { GetActors(get()) }
     single { GetMovies(get()) }
     single { GetMovieDetail(get()) }
-    single { MovieDetailsLoadDao(get())}
 }
 
 val viewModel = module {
@@ -81,16 +82,22 @@ val databaseModule = module {
             .allowMainThreadQueries()
             .build()
     }
-    fun provideDao(database: MovieDatabase): MovieDao {
+    fun provideMovieDao(database: MovieDatabase): MovieDao {
         return database.movieDao
     }
+    fun provideMovieDetailsDao(database: MovieDatabase): MovieDetailsDao {
+        return database.movieDetailsDao
+    }
+    fun provideActorDao(database: MovieDatabase): ActorDao {
+        return database.actorDao
+    }
     single { provideDatabase(androidApplication()) }
-    single { provideDao(get()) }
+    single { provideMovieDao(get()) }
+    single { provideMovieDetailsDao(get()) }
+    single { provideActorDao(get()) }
 }
 val repositoryModule = module {
-    fun provideMovieRepository(api: MoviesApi, dao: MovieDao): MoviesRepository {
-        return MoviesRepository(api, dao)
-    }
-
-    single { provideMovieRepository(get(), get()) }
+    single { ActorRepository(get(), get()) }
+    single { MovieDetailsRepository(get(), get()) }
+    single { MoviesRepository(get(), get()) }
 }

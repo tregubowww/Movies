@@ -2,7 +2,6 @@ package ru.myuniquenickname.myapplication.data.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import ru.myuniquenickname.myapplication.data.api.MoviesApi
 import ru.myuniquenickname.myapplication.data.dao.MovieDao
@@ -11,10 +10,11 @@ import ru.myuniquenickname.myapplication.data.dataMapping.ImageDto
 import ru.myuniquenickname.myapplication.data.dataMapping.ResultMoviesDto
 import ru.myuniquenickname.myapplication.domain.entity.Genre
 import ru.myuniquenickname.myapplication.domain.entity.Movie
+import ru.myuniquenickname.myapplication.domain.entity.TypeMovies
 
 class MoviesRepository(private val movieApi: MoviesApi, private val movieDao: MovieDao) {
-         val  moviePopularList: Flow<List<Movie>> = movieDao.getListPopularMovie()
-
+    val moviePopularList: Flow<List<Movie>> = movieDao.getListMovie()
+    val typeMovies: Flow<String> = movieDao.getTypeMovie()
 
     suspend fun refreshMoviePopularList() = withContext(Dispatchers.IO) {
         val listMovies = parseMovies(
@@ -22,24 +22,32 @@ class MoviesRepository(private val movieApi: MoviesApi, private val movieDao: Mo
             movieApi.getMoviesPopular().results,
             movieApi.getImage(),
         )
-        movieDao.delete()
-        movieDao.addMovies(listMovies)
+        movieDao.refreshTypeMovies(TypeMovies(POPULAR_MOVIES))
+        movieDao.refreshMovies(listMovies)
     }
 
-    suspend fun loadMovieTopList(): List<Movie> = withContext(Dispatchers.IO) {
-        parseMovies(
+    suspend fun loadMovieTopList() = withContext(Dispatchers.IO) {
+        val listMovies = parseMovies(
             movieApi.getGenres().genres,
             movieApi.getMoviesTopMovies().results,
             movieApi.getImage(),
         )
+        movieDao.deleteTypeMovies()
+        movieDao.addTypeMovies(TypeMovies(TOP_MOVIES))
+        movieDao.deleteMovies()
+        movieDao.addMovies(listMovies)
     }
 
-    suspend fun loadMovieUpcomingList(): List<Movie> = withContext(Dispatchers.IO) {
-        parseMovies(
+    suspend fun loadMovieUpcomingList() = withContext(Dispatchers.IO) {
+        val listMovies = parseMovies(
             movieApi.getGenres().genres,
             movieApi.getMoviesUpcoming().results,
             movieApi.getImage(),
         )
+        movieDao.deleteTypeMovies()
+        movieDao.addTypeMovies(TypeMovies(UPCOMING_MOVIES))
+        movieDao.deleteMovies()
+        movieDao.addMovies(listMovies)
     }
 
     suspend fun loadMovieSearchList(movie: String): List<Movie> = withContext(Dispatchers.IO) {
@@ -69,7 +77,7 @@ class MoviesRepository(private val movieApi: MoviesApi, private val movieDao: Mo
             @Suppress("unused")
             (
                 Movie
-                    (
+                (
                     id = movieDto.id,
                     title = movieDto.title,
                     overview = movieDto.overview,
@@ -91,5 +99,8 @@ class MoviesRepository(private val movieApi: MoviesApi, private val movieDao: Mo
         const val ADULT = 16
         const val MINOR = 13
         const val POSTER_SIZES_W342 = 3
+        const val POPULAR_MOVIES: String = "Popular"
+        const val TOP_MOVIES: String = "Top"
+        const val UPCOMING_MOVIES: String = "Upcoming"
     }
 }

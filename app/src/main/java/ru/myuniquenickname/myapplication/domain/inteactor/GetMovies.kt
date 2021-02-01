@@ -4,16 +4,16 @@ import ru.myuniquenickname.myapplication.data.repository.MoviesRepository
 import ru.myuniquenickname.myapplication.domain.entity.Movie
 
 class GetMovies(
-     val moviesRepository: MoviesRepository
+    val moviesRepository: MoviesRepository
 ) {
-    suspend fun getMoviePopularList(){
+    suspend fun getMoviePopularList() {
         moviesRepository.refreshMoviePopularList()
     }
-    suspend fun getMovieTopList(): List<Movie> {
-         return moviesRepository.loadMovieTopList()
+    suspend fun getMovieTopList() {
+        moviesRepository.loadMovieTopList()
     }
-    suspend fun getMovieUpcomingList(): List<Movie>{
-        return moviesRepository.loadMovieUpcomingList()
+    suspend fun getMovieUpcomingList() {
+        moviesRepository.loadMovieUpcomingList()
     }
 
     suspend fun getMovieSearchList(movie: String): List<Movie> {

@@ -1,6 +1,5 @@
 package ru.myuniquenickname.myapplication.data.dataMapping
 
-import androidx.room.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

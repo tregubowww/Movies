@@ -1,17 +1,25 @@
-package ru.myuniquenickname.myapplication.data.dao
+package ru.myuniquenickname.myapplication.data.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.myuniquenickname.myapplication.data.api.MoviesApi
+import ru.myuniquenickname.myapplication.data.dao.MovieDetailsDao
 import ru.myuniquenickname.myapplication.data.dataMapping.ImagesInfoDto
 import ru.myuniquenickname.myapplication.data.dataMapping.MovieDetailsDto
 import ru.myuniquenickname.myapplication.domain.entity.MovieDetails
 
-class MovieDetailsLoadDao(
-    private val movieApi: MoviesApi
+class MovieDetailsRepository(
+    private val movieApi: MoviesApi,
+    private val movieDetailsDao: MovieDetailsDao
 ) {
-    suspend fun loadMovie(id: Long): MovieDetails = withContext(Dispatchers.IO) {
-        parseMovie(movieApi.getMovie(id), movieApi.getImage().images)
+    suspend fun loadMovie(id: Long): MovieDetails? = withContext(Dispatchers.IO) {
+        movieDetailsDao.getMovieDetails(id)
+    }
+
+    suspend fun refreshMovie(id: Long): MovieDetails = withContext(Dispatchers.IO) {
+        val movie = parseMovie(movieApi.getMovie(id), movieApi.getImage().images)
+        movieDetailsDao.addMovieDetails(movie)
+        movie
     }
 
     private fun parseMovie(
@@ -32,7 +40,8 @@ class MovieDetailsLoadDao(
             genres = movieDetailsDto.genres.joinToString { it.name }
         )
     }
-    companion object{
+
+    companion object {
         const val ADULT = 16
         const val MINOR = 13
         const val BACKDROP_SIZES_W780 = 1

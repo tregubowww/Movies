@@ -1,6 +1,5 @@
 package ru.myuniquenickname.myapplication.data.dataMapping
 
-import androidx.room.Entity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,7 +9,6 @@ data class ImageDto(
 )
 
 @Serializable
-@Entity(tableName = "images_info_dto")
 data class ImagesInfoDto(
 
     @SerialName("secure_base_url")

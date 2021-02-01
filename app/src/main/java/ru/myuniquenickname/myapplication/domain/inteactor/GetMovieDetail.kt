@@ -1,13 +1,17 @@
 package ru.myuniquenickname.myapplication.domain.inteactor
 
-import ru.myuniquenickname.myapplication.data.dao.MovieDetailsLoadDao
+import ru.myuniquenickname.myapplication.data.repository.MovieDetailsRepository
 import ru.myuniquenickname.myapplication.domain.entity.MovieDetails
 
 class GetMovieDetail(
-    private val movieDetailsLoadDao: MovieDetailsLoadDao
+    private val moviesDetailsRepository: MovieDetailsRepository
 ) {
 
-    suspend fun getMovie(id: Long): MovieDetails {
-        return movieDetailsLoadDao.loadMovie(id)
+    suspend fun getMovieFromDb(id: Long): MovieDetails? {
+        return moviesDetailsRepository.loadMovie(id)
+    }
+
+    suspend fun getMovieFromNetwork(id: Long): MovieDetails {
+        return moviesDetailsRepository.refreshMovie(id)
     }
 }
