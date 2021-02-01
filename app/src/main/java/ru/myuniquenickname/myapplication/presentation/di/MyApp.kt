@@ -1,4 +1,4 @@
-package ru.myuniquenickname.myapplication.domain.di
+package ru.myuniquenickname.myapplication.presentation.di
 
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
@@ -10,7 +10,7 @@ class MyApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@MyApp)
-            modules(listOf(appModule, viewModel))
+            modules(listOf(appModule, viewModel, apiModule, netModule))
         }
     }
 }

@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import ru.myuniquenickname.myapplication.domain.entity.Actor
+import ru.myuniquenickname.myapplication.R
 import ru.myuniquenickname.myapplication.databinding.ViewHolderActorBinding
+import ru.myuniquenickname.myapplication.domain.entity.Actor
 
 class ActorsAdapter(private val castList: List<Actor>) :
     RecyclerView.Adapter<ActorsAdapter.ActorsViewHolder>() {
@@ -24,7 +25,7 @@ class ActorsAdapter(private val castList: List<Actor>) :
     override fun onBindViewHolder(holder: ActorsViewHolder, position: Int) {
         val castItem = castList[position]
         holder.binding.apply {
-            putPosterImage(root, castItem.picture, imageActor)
+            putPosterImage(root, castItem.picturePath, imageActor)
             textActor.text = castItem.name
         }
     }
@@ -33,6 +34,7 @@ class ActorsAdapter(private val castList: List<Actor>) :
         Glide
             .with(root)
             .load(posterPath)
+            .placeholder(R.drawable.ic_baseline_empty_actor_outline_24)
             .into(poster)
     }
 

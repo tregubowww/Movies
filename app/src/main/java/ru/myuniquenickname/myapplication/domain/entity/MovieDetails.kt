@@ -1,14 +1,13 @@
 package ru.myuniquenickname.myapplication.domain.entity
 
-data class Movie(
+data class MovieDetails(
     var like: Boolean,
-    val id: Long,
-    val poster: String,
     val backdrop: String,
     val minimumAge: Int,
     val ratings: Float,
     val title: String,
     val overview: String,
     val numberOfRatings: Long,
-    val genres: List<Genre>
+    val runtime: Long,
+    val genres: String
 )

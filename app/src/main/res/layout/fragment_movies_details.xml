@@ -10,6 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
         <ImageView
             android:id="@+id/logo"
@@ -20,7 +30,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/logo_movie_avengers" />
+            tools:src="@drawable/image_details" />
 
 
         <ImageView
@@ -29,7 +39,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/logo"
             app:layout_constraintStart_toStartOf="parent"
-            tools:srcCompat="@drawable/mask_movie_avengers" />
+            tools:srcCompat="@drawable/mask" />
 
         <TextView
             android:id="@+id/toBack"

@@ -24,6 +24,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/logo_list_wonder_woman"
+            />
+        <ImageView
+            android:id="@+id/mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/mask"
             />
 
 
@@ -42,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/_13"
+            tools:text="@string/_13"
             android:textColor="@color/textColorWhite"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -58,7 +69,7 @@
             android:layout_marginStart="6dp"
             android:layout_marginEnd="6dp"
             android:fontFamily="@font/roboto_light"
-            android:text="@string/action_adventure_fantasy"
+            tools:text="@string/action_adventure_fantasy"
             android:textColor="@color/text_color_pink"
             android:textSize="8sp"
             app:layout_constraintBottom_toTopOf="@+id/ratingBarFragmentList"
@@ -88,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="55dp"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/_125_reviews"
+            tools:text="@string/_125_reviews"
             android:textColor="@color/text_color_grey"
             android:textSize="8sp"
             android:textStyle="bold"
@@ -104,7 +115,7 @@
             android:layout_marginStart="6dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/avengers_end_game"
+            tools:text="@string/avengers_end_game"
             android:textColor="@color/textColorWhite"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -114,21 +125,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.9"
             app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/durationMin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:fontFamily="@font/roboto_black"
-            android:text="@string/_137_min"
-            android:textColor="@color/text_color_grey"
-            android:textSize="8sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
-
 
         <ImageView
             android:id="@+id/imageViewLike"

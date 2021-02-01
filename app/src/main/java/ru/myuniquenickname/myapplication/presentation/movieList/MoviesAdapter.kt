@@ -35,10 +35,9 @@ class MoviesAdapter(
             name.text = itemMovies.title
             genres.text = itemMovies.genres.joinToString { it.name }
             reviewsFragmentList.text = itemMovies.numberOfRatings.toString() + " REVIEWS"
-            durationMin.text = itemMovies.runtime.toString() + " MIN"
             onClickLike(itemMovies.like, imageViewLike, itemMovies)
         }
-        holder.itemView.setOnClickListener { clickListener.onClick(itemMovies) }
+        holder.itemView.setOnClickListener { clickListener.onClick(itemMovies.id) }
     }
 
     private fun onClickLike(isLike: Boolean, imageViewLike: ImageView, itemMovies: Movie) {
@@ -66,7 +65,7 @@ class MoviesAdapter(
     }
 
     interface OnRecyclerItemClicked {
-        fun onClick(itemMovies: Movie)
+        fun onClick(id: Long)
     }
 }
 
