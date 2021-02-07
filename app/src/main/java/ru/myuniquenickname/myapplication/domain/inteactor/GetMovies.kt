@@ -7,7 +7,7 @@ class GetMovies(
     val moviesRepository: MoviesRepository
 ) {
     suspend fun getMoviePopularList() {
-        moviesRepository.refreshMoviePopularList()
+        moviesRepository.loadMoviePopularList()
     }
     suspend fun getMovieTopList() {
         moviesRepository.loadMovieTopList()

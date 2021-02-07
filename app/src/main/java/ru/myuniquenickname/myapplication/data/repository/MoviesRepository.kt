@@ -16,7 +16,7 @@ class MoviesRepository(private val movieApi: MoviesApi, private val movieDao: Mo
     val moviePopularList: Flow<List<Movie>> = movieDao.getListMovie()
     val typeMovies: Flow<String> = movieDao.getTypeMovie()
 
-    suspend fun refreshMoviePopularList() = withContext(Dispatchers.IO) {
+    suspend fun loadMoviePopularList() = withContext(Dispatchers.IO) {
         val listMovies = parseMovies(
             movieApi.getGenres().genres,
             movieApi.getMoviesPopular().results,

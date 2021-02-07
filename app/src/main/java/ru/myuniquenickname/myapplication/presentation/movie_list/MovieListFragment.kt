@@ -17,9 +17,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.WorkManager
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.myuniquenickname.myapplication.R
+import ru.myuniquenickname.myapplication.data.work_manager.WorkRepository
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
 import ru.myuniquenickname.myapplication.presentation.TransactionsFragmentClicks
 
@@ -30,6 +32,7 @@ class MovieListFragment : Fragment() {
     private val binding get() = _binding!!
     private val movieListViewModel: MovieListViewModel by viewModel()
     private lateinit var adapterMovies: MoviesAdapter
+    private val workRepository = WorkRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,7 @@ class MovieListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        WorkManager.getInstance(requireContext()).enqueue(workRepository.constrainedRequest)
         initObservers()
         initViews()
     }
