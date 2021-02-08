@@ -1,9 +1,9 @@
-package ru.myuniquenickname.myapplication.domain.inteactor
+package ru.myuniquenickname.myapplication.domain.interactor
 
 import ru.myuniquenickname.myapplication.data.repository.ActorRepository
 import ru.myuniquenickname.myapplication.domain.entity.Actor
 
-class GetActors(
+class GetActorsInteractor(
     private val actorRepository: ActorRepository
 ) {
     suspend fun getActorListFromDb(id: Long): List<Actor>? {

@@ -2,7 +2,6 @@ package ru.myuniquenickname.myapplication.data.work_manager
 
 import androidx.work.Constraints
 import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import java.util.concurrent.TimeUnit
 
@@ -13,7 +12,13 @@ class WorkRepository {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresCharging(true)
             .build()
-    val constrainedRequest = PeriodicWorkRequest.Builder(MoviesWorker::class.java, 8, TimeUnit.HOURS)
+    val constrainedRequest = PeriodicWorkRequest.Builder(MoviesWorker::class.java,
+        Companion.INTERVAL_REPEAT_LOAD, TimeUnit.HOURS)
         .setConstraints(constraints)
         .build()
+
+    companion object {
+        const val INTERVAL_REPEAT_LOAD: Long = 8
+    }
+
 }

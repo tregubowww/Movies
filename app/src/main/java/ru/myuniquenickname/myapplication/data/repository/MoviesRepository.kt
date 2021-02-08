@@ -13,8 +13,13 @@ import ru.myuniquenickname.myapplication.domain.entity.Movie
 import ru.myuniquenickname.myapplication.domain.entity.TypeMovies
 
 class MoviesRepository(private val movieApi: MoviesApi, private val movieDao: MovieDao) {
-    val moviePopularList: Flow<List<Movie>> = movieDao.getListMovie()
-    val typeMovies: Flow<String> = movieDao.getTypeMovie()
+
+    fun getFlowMovieList(): Flow<List<Movie>> {
+        return movieDao.getListMovie()
+    }
+    fun getFlowTypeMovies(): Flow<String> {
+        return movieDao.getTypeMovie()
+    }
 
     suspend fun loadMoviePopularList() = withContext(Dispatchers.IO) {
         val listMovies = parseMovies(

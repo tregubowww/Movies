@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.myuniquenickname.myapplication.domain.entity.Actor
 import ru.myuniquenickname.myapplication.domain.entity.MovieDetails
-import ru.myuniquenickname.myapplication.domain.inteactor.GetActors
-import ru.myuniquenickname.myapplication.domain.inteactor.GetMovieDetail
+import ru.myuniquenickname.myapplication.domain.interactor.GetActorsInteractor
+import ru.myuniquenickname.myapplication.domain.interactor.GetMovieDetailInteractor
 import ru.myuniquenickname.myapplication.presentation.movie_list.LoadingState
 
 class MovieViewModel(
-    private val getMovieDetail: GetMovieDetail,
-    private val getActorList: GetActors,
+    private val getMovieDetail: GetMovieDetailInteractor,
+    private val getActorList: GetActorsInteractor,
 ) : ViewModel() {
 
     private val _mutableMovie = MutableLiveData<MovieDetails>()

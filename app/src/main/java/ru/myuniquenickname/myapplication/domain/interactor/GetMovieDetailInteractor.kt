@@ -1,9 +1,9 @@
-package ru.myuniquenickname.myapplication.domain.inteactor
+package ru.myuniquenickname.myapplication.domain.interactor
 
 import ru.myuniquenickname.myapplication.data.repository.MovieDetailsRepository
 import ru.myuniquenickname.myapplication.domain.entity.MovieDetails
 
-class GetMovieDetail(
+class GetMovieDetailInteractor(
     private val moviesDetailsRepository: MovieDetailsRepository
 ) {
 

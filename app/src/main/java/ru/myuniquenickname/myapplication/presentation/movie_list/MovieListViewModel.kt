@@ -15,26 +15,26 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.myuniquenickname.myapplication.domain.entity.Movie
-import ru.myuniquenickname.myapplication.domain.inteactor.GetMovies
+import ru.myuniquenickname.myapplication.domain.interactor.GetMoviesInteractor
 import java.util.concurrent.CancellationException
 
-class MovieListViewModel(private val getMovies: GetMovies) : ViewModel() {
+class MovieListViewModel(private val getMovies: GetMoviesInteractor) : ViewModel() {
 
     private val _mutableLoadingState = MutableLiveData<LoadingState>()
 
-    val mutableTypeMovies get() = getMovies.moviesRepository.typeMovies.asLiveData()
-    val movieList: LiveData<List<Movie>> get() = getMovies.moviesRepository.moviePopularList.asLiveData()
+    val mutableTypeMovies: LiveData<String> get() = getMovies.getTypeMovies().asLiveData()
+    val movieList: LiveData<List<Movie>> get() = getMovies.getMovieList().asLiveData()
     val loadingState: LiveData<LoadingState> get() = _mutableLoadingState
 
     val queryChannel = BroadcastChannel<String>(Channel.CONFLATED)
 
     val moviesListSearch: LiveData<MoviesSearchResult> get() = searchMovie(queryChannel)
 
-    fun refreshPopularMovies() {
+    fun loadPopularMovies() {
         viewModelScope.launch {
             try {
                 _mutableLoadingState.value = LoadingState.LOADING
-                getMovies.getMoviePopularList()
+                getMovies.loadMoviePopularList()
                 _mutableLoadingState.value = LoadingState.LOADED
             } catch (exception: Exception) {
                 _mutableLoadingState.value = LoadingState.error(exception.message)
@@ -44,14 +44,12 @@ class MovieListViewModel(private val getMovies: GetMovies) : ViewModel() {
 
     fun loadTopMovies() {
         viewModelScope.launch {
-            viewModelScope.launch {
-                try {
-                    _mutableLoadingState.value = LoadingState.LOADING
-                    getMovies.getMovieTopList()
-                    _mutableLoadingState.value = LoadingState.LOADED
-                } catch (exception: Exception) {
-                    _mutableLoadingState.value = LoadingState.error(exception.message)
-                }
+            try {
+                _mutableLoadingState.value = LoadingState.LOADING
+                getMovies.loadMovieTopList()
+                _mutableLoadingState.value = LoadingState.LOADED
+            } catch (exception: Exception) {
+                _mutableLoadingState.value = LoadingState.error(exception.message)
             }
         }
     }
@@ -60,7 +58,7 @@ class MovieListViewModel(private val getMovies: GetMovies) : ViewModel() {
         viewModelScope.launch {
             try {
                 _mutableLoadingState.value = LoadingState.LOADING
-                getMovies.getMovieUpcomingList()
+                getMovies.loadMovieUpcomingList()
                 _mutableLoadingState.value = LoadingState.LOADED
             } catch (exception: Exception) {
                 _mutableLoadingState.value = LoadingState.error(exception.message)
@@ -80,7 +78,7 @@ class MovieListViewModel(private val getMovies: GetMovies) : ViewModel() {
                         EmptyQuery
                     } else {
                         try {
-                            val result = getMovies.getMovieSearchList(it)
+                            val result = getMovies.loadMovieSearchList(it)
                             if (result.isEmpty()) {
                                 EmptyResult
                             } else {

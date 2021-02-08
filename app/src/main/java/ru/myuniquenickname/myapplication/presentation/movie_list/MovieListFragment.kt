@@ -37,7 +37,7 @@ class MovieListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            movieListViewModel.refreshPopularMovies()
+            movieListViewModel.loadPopularMovies()
         }
         setHasOptionsMenu(true)
     }
@@ -82,7 +82,7 @@ class MovieListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_popular -> {
-                movieListViewModel.refreshPopularMovies()
+                movieListViewModel.loadPopularMovies()
                 true
             }
             R.id.action_top -> {
