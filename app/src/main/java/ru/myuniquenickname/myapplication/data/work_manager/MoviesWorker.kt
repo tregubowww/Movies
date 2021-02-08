@@ -12,7 +12,7 @@ class MoviesWorker(context: Context, params: WorkerParameters) : CoroutineWorker
     override suspend fun doWork(): Result {
         return try {
             val moviesRepository: MoviesRepository by inject()
-            val typeMovie = moviesRepository.typeMovies.asLiveData().value
+            val typeMovie = moviesRepository.getFlowTypeMovies().asLiveData().value
             when (typeMovie) {
                 MoviesRepository.POPULAR_MOVIES -> moviesRepository.loadMoviePopularList()
                 MoviesRepository.TOP_MOVIES -> moviesRepository.loadMovieTopList()
