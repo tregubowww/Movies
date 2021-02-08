@@ -5,7 +5,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import java.util.concurrent.TimeUnit
 
-class WorkRepository {
+class WorkConstraints {
     private val constraints =
         Constraints
             .Builder()
@@ -13,7 +13,7 @@ class WorkRepository {
             .setRequiresCharging(true)
             .build()
     val constrainedRequest = PeriodicWorkRequest.Builder(MoviesWorker::class.java,
-        Companion.INTERVAL_REPEAT_LOAD, TimeUnit.HOURS)
+        INTERVAL_REPEAT_LOAD, TimeUnit.HOURS)
         .setConstraints(constraints)
         .build()
 
