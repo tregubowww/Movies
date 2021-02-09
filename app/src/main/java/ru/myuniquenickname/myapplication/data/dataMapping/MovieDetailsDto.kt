@@ -5,13 +5,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MovieDetailsDto(
+    val id: Long,
     val adult: Boolean,
 
     @SerialName("backdrop_path")
     val backdropPath: String?,
 
     val genres: List<GenreDto>,
-    val id: Long,
+
     val overview: String,
 
     val runtime: Long,

@@ -1,11 +1,13 @@
-package ru.myuniquenickname.myapplication.presentation.movieList
+package ru.myuniquenickname.myapplication.presentation.movie_list
 
 import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.asFlow
@@ -15,42 +17,54 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.myuniquenickname.myapplication.domain.entity.Movie
-import ru.myuniquenickname.myapplication.domain.inteactor.GetMovies
-import ru.myuniquenickname.myapplication.presentation.utils.TIMEOUT_DEBOUNCE
+import ru.myuniquenickname.myapplication.domain.interactor.GetMoviesInteractor
 import java.util.concurrent.CancellationException
 
-class MovieListViewModel(private val getMovies: GetMovies) : ViewModel() {
+class MovieListViewModel(private val getMovies: GetMoviesInteractor) : ViewModel() {
 
-    private val _mutableMoviesList = MutableLiveData<List<Movie>>()
-    private val _mutableLoadingState = MutableLiveData<Boolean>()
+    private val _mutableLoadingState = MutableLiveData<LoadingState>()
 
-    val movieList: LiveData<List<Movie>?> get() = _mutableMoviesList
-    val loadingState: LiveData<Boolean> get() = _mutableLoadingState
+    val mutableTypeMovies: LiveData<String> get() = getMovies.getTypeMovies().asLiveData()
+    val movieList: LiveData<List<Movie>> get() = getMovies.getMovieList().asLiveData()
+    val loadingState: LiveData<LoadingState> get() = _mutableLoadingState
 
     val queryChannel = BroadcastChannel<String>(Channel.CONFLATED)
-    private val _mutableMoviesListSearch = searchMovie(queryChannel)
 
-    val moviesListSearch: LiveData<MoviesSearchResult> get() = _mutableMoviesListSearch
+    val moviesListSearch: LiveData<MoviesSearchResult> get() = searchMovie(queryChannel)
 
     fun loadPopularMovies() {
         viewModelScope.launch {
-            _mutableLoadingState.value = true
-            _mutableMoviesList.value = getMovies.getMoviePopularList()
-            _mutableLoadingState.value = false
+            try {
+                _mutableLoadingState.value = LoadingState.LOADING
+                getMovies.loadMoviePopularList()
+                _mutableLoadingState.value = LoadingState.LOADED
+            } catch (exception: Exception) {
+                _mutableLoadingState.value = LoadingState.error(exception.message)
+            }
         }
     }
+
     fun loadTopMovies() {
         viewModelScope.launch {
-            _mutableLoadingState.value = true
-            _mutableMoviesList.value = getMovies.getMovieTopList()
-            _mutableLoadingState.value = false
+            try {
+                _mutableLoadingState.value = LoadingState.LOADING
+                getMovies.loadMovieTopList()
+                _mutableLoadingState.value = LoadingState.LOADED
+            } catch (exception: Exception) {
+                _mutableLoadingState.value = LoadingState.error(exception.message)
+            }
         }
     }
+
     fun loadUpcomingMovies() {
         viewModelScope.launch {
-            _mutableLoadingState.value = true
-            _mutableMoviesList.value = getMovies.getMovieUpcomingList()
-            _mutableLoadingState.value = false
+            try {
+                _mutableLoadingState.value = LoadingState.LOADING
+                getMovies.loadMovieUpcomingList()
+                _mutableLoadingState.value = LoadingState.LOADED
+            } catch (exception: Exception) {
+                _mutableLoadingState.value = LoadingState.error(exception.message)
+            }
         }
     }
 
@@ -59,20 +73,20 @@ class MovieListViewModel(private val getMovies: GetMovies) : ViewModel() {
             return queryChannel.asFlow()
                 .debounce(TIMEOUT_DEBOUNCE)
                 .onEach {
-                    _mutableLoadingState.value = true
+                    _mutableLoadingState.value = LoadingState.LOADING
                 }
                 .mapLatest {
                     if (it.isEmpty()) {
                         EmptyQuery
                     } else {
                         try {
-                            val result = getMovies.getMovieSearchList(it)
+                            val result = getMovies.loadMovieSearchList(it)
                             if (result.isEmpty()) {
                                 EmptyResult
                             } else {
                                 ValidResult(result)
                             }
-                        } catch (throwable : Throwable) {
+                        } catch (throwable: Throwable) {
                             if (throwable is CancellationException) {
                                 throw throwable
                             } else {
@@ -83,13 +97,12 @@ class MovieListViewModel(private val getMovies: GetMovies) : ViewModel() {
                     }
                 }
                 .onEach {
-                    _mutableLoadingState.value = false
+                    _mutableLoadingState.value = LoadingState.LOADED
                 }
                 .catch { emit(TerminalError) }
                 .asLiveData(viewModelScope.coroutineContext)
         }
-
-    init {
-        loadPopularMovies()
+    companion object {
+        const val TIMEOUT_DEBOUNCE: Long = 500
     }
 }

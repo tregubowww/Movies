@@ -17,5 +17,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="_137_min">137 MIN</string>
     <string name="movies_list">Popular movies</string>
+    <string name="errorResults">Something went wrong when downloading movies. Please, check your connection and try again</string>
+    <string name="emptyResults">No results matching your query</string>
+    <string name="emptyQuery">Empty query</string>
+    <string name="terminalError">Unexpected error while trying to fetch movies!</string>
+    <string name="loading_error">LOADING ERROR</string>
+    <string name="popular_movies">Popular movies</string>
+    <string name="top_movies">Top movies</string>
+    <string name="upcoming_movies">Upcoming movies</string>
 
 </resources>

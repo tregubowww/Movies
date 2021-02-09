@@ -5,11 +5,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ImageDto(
-    val images: ImagesDto,
+    val images: ImagesInfoDto,
 )
 
 @Serializable
-data class ImagesDto(
+data class ImagesInfoDto(
 
     @SerialName("secure_base_url")
     val secureBaseURL: String,
