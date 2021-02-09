@@ -10,7 +10,6 @@ import ru.myuniquenickname.myapplication.data.dao.MovieDetailsDao
 fun provideDatabase(application: Application): MovieDatabase {
     return Room.databaseBuilder(application, MovieDatabase::class.java, MovieDatabase.NAME_DB)
         .fallbackToDestructiveMigration()
-        .allowMainThreadQueries()
         .build()
 }
 fun provideMovieDao(database: MovieDatabase): MovieDao {
