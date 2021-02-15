@@ -25,5 +25,6 @@
     <string name="popular_movies">Popular movies</string>
     <string name="top_movies">Top movies</string>
     <string name="upcoming_movies">Upcoming movies</string>
+    <string name="channel_new_movie">New movie</string>
 
 </resources>

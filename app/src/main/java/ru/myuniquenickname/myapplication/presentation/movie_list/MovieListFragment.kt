@@ -1,8 +1,10 @@
 package ru.myuniquenickname.myapplication.presentation.movie_list
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
@@ -14,15 +16,23 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.myuniquenickname.myapplication.R
 import ru.myuniquenickname.myapplication.data.work_manager.WorkConstraints
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
+import ru.myuniquenickname.myapplication.domain.entity.Movie
+import ru.myuniquenickname.myapplication.presentation.MovieNotifications
 import ru.myuniquenickname.myapplication.presentation.TransactionsFragmentClicks
 
 class MovieListFragment : Fragment() {
@@ -41,6 +51,7 @@ class MovieListFragment : Fragment() {
         }
         setHasOptionsMenu(true)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,6 +88,8 @@ class MovieListFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.info_menu, menu)
         showSearchView(menu)
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -217,7 +230,7 @@ class MovieListFragment : Fragment() {
                 override fun onQueryTextChange(newText: String): Boolean {
                     binding.typeListTextView.isVisible = false
                     lifecycleScope.launch {
-                        movieListViewModel.queryChannel.send(newText.toString())
+                        movieListViewModel.queryChannel.send(newText)
                     }
                     return false
                 }

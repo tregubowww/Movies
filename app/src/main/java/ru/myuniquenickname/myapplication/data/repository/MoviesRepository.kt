@@ -1,5 +1,6 @@
 package ru.myuniquenickname.myapplication.data.repository
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -17,7 +18,7 @@ class MoviesRepository(private val movieApi: MoviesApi, private val movieDao: Mo
     fun getFlowMovieList(): Flow<List<Movie>> {
         return movieDao.getListMovie()
     }
-    fun getFlowTypeMovies(): Flow<String> {
+    fun getLiveDataTypeMovies(): Flow<String> {
         return movieDao.getTypeMovie()
     }
 

@@ -17,6 +17,7 @@ import ru.myuniquenickname.myapplication.data.repository.MoviesRepository
 import ru.myuniquenickname.myapplication.domain.interactor.GetActorsInteractor
 import ru.myuniquenickname.myapplication.domain.interactor.GetMovieDetailInteractor
 import ru.myuniquenickname.myapplication.domain.interactor.GetMoviesInteractor
+import ru.myuniquenickname.myapplication.presentation.MovieNotifications
 import ru.myuniquenickname.myapplication.presentation.movie_details.MovieViewModel
 import ru.myuniquenickname.myapplication.presentation.movie_list.MovieListViewModel
 
@@ -25,6 +26,9 @@ val appModule = module {
     single { GetActorsInteractor(get()) }
     single { GetMoviesInteractor(get()) }
     single { GetMovieDetailInteractor(get()) }
+
+
+    single { MovieNotifications(androidApplication()) }
 }
 
 val viewModel = module {

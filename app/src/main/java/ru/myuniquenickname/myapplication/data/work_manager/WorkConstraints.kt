@@ -10,7 +10,7 @@ class WorkConstraints {
         Constraints
             .Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresCharging(true)
+//            .setRequiresCharging(true)
             .build()
     val constrainedRequest = PeriodicWorkRequest.Builder(MoviesWorker::class.java,
         INTERVAL_REPEAT_LOAD, TimeUnit.HOURS)

@@ -21,7 +21,7 @@ class GetMoviesInteractor(
         return moviesRepository.loadMovieSearchList(movie)
     }
     fun getTypeMovies(): Flow<String> {
-        return moviesRepository.getFlowTypeMovies()
+        return moviesRepository.getLiveDataTypeMovies()
     }
     fun getMovieList(): Flow<List<Movie>> {
         return moviesRepository.getFlowMovieList()
