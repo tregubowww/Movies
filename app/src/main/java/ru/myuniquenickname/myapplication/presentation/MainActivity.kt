@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import org.koin.android.ext.android.inject
 import ru.myuniquenickname.myapplication.R
 import ru.myuniquenickname.myapplication.databinding.ActivityMainBinding
-import ru.myuniquenickname.myapplication.presentation.MovieNotifications.Companion.MOVIE_TAG
 import ru.myuniquenickname.myapplication.presentation.movie_details.MovieFragment
 import ru.myuniquenickname.myapplication.presentation.movie_list.MovieListFragment
 

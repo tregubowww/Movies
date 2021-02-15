@@ -1,6 +1,7 @@
 package ru.myuniquenickname.myapplication.data.work_manager
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.flow.first
@@ -20,8 +21,7 @@ class MoviesWorker(val context: Context, params: WorkerParameters) :
             notification.initializeChanel()
             val listMovieBefore = moviesRepository.getFlowMovieList().first()
 
-
-
+            Log.i("work", "Это мое сообщение для записи в журнале");
             when (typeMovie) {
                 MoviesRepository.POPULAR_MOVIES -> {
                     moviesRepository.loadMoviePopularList()
