@@ -13,12 +13,12 @@ class WorkConstraints {
 //            .setRequiresCharging(true)
             .build()
     val constrainedRequest = PeriodicWorkRequest.Builder(MoviesWorker::class.java,
-        INTERVAL_REPEAT_LOAD, TimeUnit.HOURS)
+        INTERVAL_REPEAT_LOAD, TimeUnit.MINUTES)
         .setConstraints(constraints)
         .build()
 
     companion object {
-        const val INTERVAL_REPEAT_LOAD: Long = 8
+        const val INTERVAL_REPEAT_LOAD: Long = 15
     }
 
 }

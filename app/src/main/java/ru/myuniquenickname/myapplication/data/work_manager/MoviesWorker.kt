@@ -56,8 +56,9 @@ class MoviesWorker(val context: Context, params: WorkerParameters) :
         if (movieMaxRating != null) {
             movieNotifications.showNotification(movieMaxRating)
         } else {
-            movieMaxRating = listMovieBefore?.maxByOrNull { it.ratings }
-            if (movieMaxRating != null) movieNotifications.showNotification(movieMaxRating)
+            listMovieBefore?.maxByOrNull { it.ratings }?.let {
+                movieNotifications.showNotification(it)
+            }
         }
     }
 

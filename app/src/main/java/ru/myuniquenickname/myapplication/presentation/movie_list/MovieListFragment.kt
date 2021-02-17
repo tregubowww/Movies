@@ -1,38 +1,23 @@
 package ru.myuniquenickname.myapplication.presentation.movie_list
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.WorkInfo
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.myuniquenickname.myapplication.R
 import ru.myuniquenickname.myapplication.data.work_manager.WorkConstraints
 import ru.myuniquenickname.myapplication.databinding.FragmentMoviesListBinding
-import ru.myuniquenickname.myapplication.domain.entity.Movie
-import ru.myuniquenickname.myapplication.presentation.MovieNotifications
 import ru.myuniquenickname.myapplication.presentation.TransactionsFragmentClicks
 
 class MovieListFragment : Fragment() {
@@ -65,7 +50,11 @@ class MovieListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        WorkManager.getInstance(requireContext()).enqueue(workConstraints.constrainedRequest)
+        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+            PERIODIC_LOAD_MOVIES,
+            ExistingPeriodicWorkPolicy.KEEP,
+            workConstraints.constrainedRequest
+        )
         initObservers()
         initViews()
     }
@@ -135,7 +124,7 @@ class MovieListFragment : Fragment() {
 
     private fun movieListSearchObserver() {
         movieListViewModel.moviesListSearch.observe(
-            this@MovieListFragment,
+            viewLifecycleOwner,
             {
                 when (it) {
                     is ValidResult -> {
@@ -160,7 +149,7 @@ class MovieListFragment : Fragment() {
 
     private fun movieListObserver() {
         movieListViewModel.movieList.observe(
-            this@MovieListFragment,
+            viewLifecycleOwner,
             {
                 adapterMovies.submitList(it)
             }
@@ -169,7 +158,7 @@ class MovieListFragment : Fragment() {
 
     private fun typeMovieListObserver() {
         movieListViewModel.mutableTypeMovies.observe(
-            this@MovieListFragment,
+            viewLifecycleOwner,
             {
                 binding.typeListTextView.text = it
             }
@@ -178,7 +167,7 @@ class MovieListFragment : Fragment() {
 
     private fun loadingStateObserver() {
         movieListViewModel.loadingState.observe(
-            this,
+            viewLifecycleOwner,
             {
                 when (it.status) {
                     LoadingState.Status.FAILED -> {
@@ -241,5 +230,6 @@ class MovieListFragment : Fragment() {
     companion object {
         private const val SPAN_COUNT_ORIENTATION_PORTRAIT = 2
         private const val SPAN_COUNT_ORIENTATION_LANDSCAPE = 3
+        private const val PERIODIC_LOAD_MOVIES = "PERIODIC_LOAD_MOVIES"
     }
 }
